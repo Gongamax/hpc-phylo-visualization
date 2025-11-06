@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phylotree.js API Test</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/phylotree@2.1.7/dist/phylotree.js"></script>
+    <style>
+      #tree-container {
+        border: 1px solid #ccc;
+        width: 800px;
+        height: 600px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Phylotree.js API Test</h1>
+    <div id="tree-container"></div>
+
+    <script>
+      // Simple test tree
+      const newick = "((A:0.1,B:0.2):0.05,((C:0.3,D:0.4):0.1,E:0.05):0.2):0.0;";
+
+      try {
+        console.log("Available phylotree object:", typeof phylotree, phylotree);
+        console.log("Creating phylotree instance...");
+        // phylotree is a constructor function
+        const tree = new phylotree.phylotree(newick);
+
+        const container = d3.select("#tree-container");
+
+        console.log("Rendering tree...");
+        tree.render({
+          container: container,
+          width: 800,
+          height: 600,
+          "show-scale": true,
+          "align-tips": true,
+        });
+
+        console.log("Tree rendered successfully!");
+        console.log("Tree statistics:", {
+          nodes: tree.get_nodes().length,
+          leaves: tree.get_nodes().filter((n) => tree.is_leafnode(n)).length,
+        });
+      } catch (error) {
+        console.error("Error rendering tree:", error);
+        document.getElementById("tree-container").innerHTML =
+          '<p style="color: red;">Error: ' + error.message + "</p>";
+      }
+    </script>
+  </body>
+</html>

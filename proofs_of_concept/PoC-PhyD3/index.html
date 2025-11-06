@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PhyD3 test</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      svg {
+        width: 100%;
+        height: 600px;
+      }
+      /* Improve node and label visibility for PhyD3 output */
+      svg .node circle {
+        r: 5;
+        fill: steelblue;
+        stroke: #333;
+        stroke-width: 1px;
+      }
+      svg text {
+        font-size: 12px;
+        fill: #111;
+      }
+      /* If PhyD3 uses its own classes, make a generic fallback */
+      svg circle {
+        r: 5;
+        fill: steelblue;
+        stroke: #333;
+        stroke-width: 1px;
+      }
+      svg g text {
+        font-size: 12px;
+        fill: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="viz"></div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
