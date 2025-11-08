@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@frutuoso/graph.gl": "^2.0.0",
+    "@frutuoso/graph.gl": "^2.0.1",
     "@luma.gl/core": "^9.0.0",
     "@luma.gl/engine": "^9.0.0",
     "react": "^18.2.0",
