@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bundle Test</title>
+  </head>
+  <body>
+    <h1>Testing Bundle Load</h1>
+    <div id="status">Loading...</div>
+    <div id="debug-output"></div>
+
+    <script type="module">
+      console.log("Inline script running...");
+      document.getElementById("status").textContent = "Inline script works!";
+
+      // Try to import the bundle
+      try {
+        const module = await import("./dist/bundle.js");
+        console.log("Bundle loaded successfully!", module);
+        document.getElementById("status").textContent =
+          "Bundle loaded successfully!";
+      } catch (error) {
+        console.error("Failed to load bundle:", error);
+        document.getElementById("status").textContent =
+          "Failed to load bundle: " + error.message;
+        document.getElementById("debug-output").textContent = error.stack;
+      }
+    </script>
+  </body>
+</html>

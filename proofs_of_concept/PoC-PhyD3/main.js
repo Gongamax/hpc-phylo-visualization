@@ -1,83 +1,198 @@
-// Using CDN ESM builds so the browser can load modules directly without bundling.
-// If you prefer a bundler-based workflow, use `npm install` and a bundler (esbuild, vite, etc.)
-import {
-  makeCompatTable,
-  phyloxml,
-} from "https://unpkg.com/@vibbioinfocore/phyd3-parser-compat?module";
-import { build } from "https://unpkg.com/@vibbioinfocore/phyd3?module";
+// PhyD3 Clean Demo - Direct PhyloXML Support
+import { makeCompatTable, phyloxml } from "@vibbioinfocore/phyd3-parser-compat";
+import { build } from "@vibbioinfocore/phyd3";
 
-// A richer example tree (balanced with multiple internal nodes and leaves)
-const xml = `
-<phyloxml>
-  <phylogeny rooted='true'>
+// Global state
+let currentSvg = null;
+
+// Example PhyloXML trees
+const examples = {
+  simple: `<?xml version="1.0" encoding="UTF-8"?>
+<phyloxml xmlns="http://www.phyloxml.org">
+  <phylogeny rooted="true">
     <clade>
-      <name>root</name>
+      <name>Root</name>
+      <clade><name>A</name></clade>
+      <clade><name>B</name></clade>
+    </clade>
+  </phylogeny>
+</phyloxml>`,
+  
+  withBranchLengths: `<?xml version="1.0" encoding="UTF-8"?>
+<phyloxml xmlns="http://www.phyloxml.org">
+  <phylogeny rooted="true">
+    <clade>
       <clade>
-        <name>Clade-1</name>
-        <clade>
-          <name>A</name>
-          <branch_length>0.05</branch_length>
-        </clade>
-        <clade>
-          <name>B</name>
-          <branch_length>0.07</branch_length>
-        </clade>
+        <name>Human</name>
+        <branch_length>0.2</branch_length>
       </clade>
       <clade>
-        <name>Clade-2</name>
-        <clade>
-          <name>C</name>
-          <branch_length>0.12</branch_length>
-        </clade>
-        <clade>
-          <name>D</name>
-          <branch_length>0.2</branch_length>
-        </clade>
-      </clade>
-      <clade>
-        <name>E</name>
+        <name>Chimp</name>
         <branch_length>0.3</branch_length>
       </clade>
     </clade>
   </phylogeny>
-</phyloxml>`;
-const parser = new DOMParser();
-const doc = parser.parseFromString(xml, "text/xml");
+</phyloxml>`,
+};
 
-// convert parsed data to the compatibility table the library expects
-const compat = makeCompatTable(phyloxml.parse(doc));
+window.loadExample = function (exampleName) {
+  const input = document.getElementById("phyloxml-input");
+  input.value = examples[exampleName];
+  showError("");
+};
 
-// build returns a d3 selection containing an <svg>
-const svg = build(compat);
-
-// append to the page
-const container = document.getElementById("viz");
-if (!container) {
-  console.error("No #viz element found");
-} else {
-  // `svg` may be a d3 selection (with .node()) or an actual DOM node
-  const node = svg && (typeof svg.node === "function" ? svg.node() : svg);
-  if (node) container.appendChild(node);
-  else console.error("Failed to append svg: invalid return from build()");
-}
-
-// Visual tweaks: if the library produced native DOM nodes, adjust circles and text
-try {
-  const rootNode = container.querySelector("svg");
-  if (rootNode) {
-    // make sure node circles are visible
-    rootNode.querySelectorAll("circle").forEach((c) => {
-      c.setAttribute("r", 5);
-      c.setAttribute("fill", "steelblue");
-      c.setAttribute("stroke", "#333");
-    });
-    // improve label size
-    rootNode.querySelectorAll("text").forEach((t) => {
-      t.style.fontSize = "12px";
-      t.style.fill = "#111";
-    });
+function showError(message) {
+  const errorDiv = document.getElementById("error-message");
+  if (message) {
+    errorDiv.textContent = message;
+    errorDiv.style.display = "block";
+  } else {
+    errorDiv.style.display = "none";
   }
-} catch (e) {
-  // non-fatal if DOM shape is different; leave as-is
-  console.warn("Post-build visual tweak failed:", e && e.message);
 }
+
+function updateDebugOutput(text) {
+  const debugOutput = document.getElementById("debug-output");
+  if (debugOutput) {
+    debugOutput.textContent = text;
+  }
+}
+
+function renderTree(phyloXMLString) {
+  let debugInfo = [];
+
+  try {
+    showError("");
+    debugInfo.push(`Parsing PhyloXML...\n`);
+
+    // Parse the PhyloXML
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(phyloXMLString, "text/xml");
+
+    // Check for XML parsing errors
+    const parseError = doc.querySelector("parsererror");
+    if (parseError) {
+      throw new Error("Invalid XML format");
+    }
+    debugInfo.push(`✓ XML parsed successfully\n`);
+
+    // Build the tree using PhyD3
+    const svg = build(makeCompatTable(phyloxml.parse(doc)));
+    debugInfo.push(`✓ Tree built\n`);
+
+    const svgNode = svg && (typeof svg.node === "function" ? svg.node() : svg);
+    if (!svgNode) {
+      throw new Error("Failed to build tree visualization");
+    }
+
+    // Clear container and append new tree
+    const container = document.getElementById("tree-container");
+    container.innerHTML = "";
+    container.appendChild(svgNode);
+    currentSvg = svgNode;
+    document.getElementById("export-svg").disabled = false;
+
+    // Style the SVG for better visibility
+    styleTree(svgNode);
+    debugInfo.push(`✓ Tree rendered successfully!`);
+
+    updateDebugOutput(debugInfo.join("\n"));
+  } catch (error) {
+    console.error("Error rendering tree:", error);
+    debugInfo.push(`\n❌ ERROR: ${error.message}`);
+    updateDebugOutput(debugInfo.join("\n"));
+    showError(`Error: ${error.message}`);
+    document.getElementById("export-svg").disabled = true;
+  }
+}
+
+function styleTree(svgNode) {
+  try {
+    // Style circles
+    svgNode.querySelectorAll("circle").forEach((circle) => {
+      circle.setAttribute("r", 4);
+      circle.setAttribute("fill", "#4CAF50");
+      circle.setAttribute("stroke", "#2E7D32");
+      circle.setAttribute("stroke-width", "2");
+    });
+
+    // Style text labels
+    svgNode.querySelectorAll("text").forEach((text) => {
+      text.style.fontSize = "13px";
+      text.style.fontFamily = "'Segoe UI', sans-serif";
+      text.style.fill = "#333";
+    });
+
+    // Style paths (branches)
+    svgNode.querySelectorAll("path").forEach((path) => {
+      path.setAttribute("stroke", "#666");
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("fill", "none");
+    });
+
+    svgNode.querySelectorAll("line").forEach((line) => {
+      line.setAttribute("stroke", "#666");
+      line.setAttribute("stroke-width", "2");
+    });
+  } catch (e) {
+    console.warn("Could not apply custom styles:", e);
+  }
+}
+
+// Event handlers
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM loaded, initializing PhyD3 demo...");
+
+  const loadBtn = document.getElementById("load-tree");
+  const exportBtn = document.getElementById("export-svg");
+  const clearBtn = document.getElementById("clear-tree");
+
+  if (!loadBtn || !exportBtn || !clearBtn) {
+    console.error("Required buttons not found in DOM!");
+    return;
+  }
+
+  loadBtn.addEventListener("click", () => {
+    console.log("Load button clicked");
+    const phyloXMLString = document.getElementById("phyloxml-input").value.trim();
+    if (!phyloXMLString) {
+      showError("Please enter a PhyloXML tree");
+      return;
+    }
+    renderTree(phyloXMLString);
+  });
+
+  exportBtn.addEventListener("click", () => {
+    if (!currentSvg) return;
+
+    try {
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(currentSvg);
+
+      const blob = new Blob([svgString], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "phylogenetic-tree.svg";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      showError(`Export failed: ${error.message}`);
+    }
+  });
+
+  clearBtn.addEventListener("click", () => {
+    document.getElementById("tree-container").innerHTML = "";
+    currentSvg = null;
+    exportBtn.disabled = true;
+    showError("");
+    updateDebugOutput("");
+  });
+
+  // Load default example on page load
+  console.log("Loading default tree...");
+  const defaultXML = document.getElementById("phyloxml-input").value;
+  if (defaultXML) {
+    renderTree(defaultXML);
+  }
+});

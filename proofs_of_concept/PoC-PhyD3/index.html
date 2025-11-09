@@ -2,41 +2,164 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>PhyD3 test</title>
+    <title>PhyD3 Demo - PhyloXML Viewer</title>
     <style>
       body {
-        font-family: sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
       }
-      svg {
+      h1 {
+        color: #333;
+        border-bottom: 3px solid #4caf50;
+        padding-bottom: 10px;
+      }
+      .controls {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #555;
+      }
+      textarea {
         width: 100%;
-        height: 600px;
-      }
-      /* Improve node and label visibility for PhyD3 output */
-      svg .node circle {
-        r: 5;
-        fill: steelblue;
-        stroke: #333;
-        stroke-width: 1px;
-      }
-      svg text {
+        height: 200px;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-family: "Courier New", monospace;
         font-size: 12px;
-        fill: #111;
+        resize: vertical;
       }
-      /* If PhyD3 uses its own classes, make a generic fallback */
-      svg circle {
-        r: 5;
-        fill: steelblue;
-        stroke: #333;
-        stroke-width: 1px;
+      textarea:focus {
+        outline: none;
+        border-color: #4caf50;
       }
-      svg g text {
+      .button-group {
+        margin-top: 15px;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px 5px 5px 0;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      .export-btn {
+        background-color: #2196f3;
+      }
+      .export-btn:hover {
+        background-color: #0b7dda;
+      }
+      #tree-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        min-height: 400px;
+      }
+      #tree-container svg {
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+      }
+      .examples {
+        margin-top: 10px;
         font-size: 12px;
-        fill: #111;
+        color: #666;
+      }
+      .examples a {
+        color: #2196f3;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .examples a:hover {
+        color: #0b7dda;
+      }
+      .error {
+        background-color: #ffebee;
+        color: #c62828;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        display: none;
+      }
+      .info {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
       }
     </style>
   </head>
   <body>
-    <div id="viz"></div>
-    <script type="module" src="./main.js"></script>
+    <h1>�� PhyD3 Demo - PhyloXML Tree Visualization</h1>
+
+    <div class="info">
+      This demo uses the PhyD3 library to visualize phylogenetic trees in PhyloXML format.
+    </div>
+
+    <div class="controls">
+      <label for="phyloxml-input">PhyloXML Format Tree:</label>
+      <textarea id="phyloxml-input" placeholder="Paste PhyloXML format here..."><?xml version="1.0" encoding="UTF-8"?>
+<phyloxml xmlns="http://www.phyloxml.org">
+  <phylogeny rooted="true">
+    <clade>
+      <name>Root</name>
+      <clade><name>A</name><branch_length>0.2</branch_length></clade>
+      <clade><name>B</name><branch_length>0.3</branch_length></clade>
+      <clade>
+        <clade><name>C</name><branch_length>0.5</branch_length></clade>
+        <clade><name>D</name><branch_length>0.3</branch_length></clade>
+      </clade>
+    </clade>
+  </phylogeny>
+</phyloxml></textarea>
+
+      <div class="examples">
+        <strong>Example trees:</strong>
+        <a onclick="loadExample('simple')">Simple</a> |
+        <a onclick="loadExample('withBranchLengths')">With Branch Lengths</a>
+      </div>
+
+      <div class="button-group">
+        <button id="load-tree">🔄 Load Tree</button>
+        <button id="export-svg" class="export-btn" disabled>💾 Export SVG</button>
+        <button id="clear-tree" style="background-color: #f44336">🗑️ Clear</button>
+      </div>
+
+      <div id="error-message" class="error"></div>
+    </div>
+
+    <div id="tree-container"></div>
+
+    <details style="margin-top: 20px; background: white; padding: 15px; border-radius: 8px;">
+      <summary style="cursor: pointer; font-weight: bold; color: #666">
+        🔍 Debug Info (click to expand)
+      </summary>
+      <pre id="debug-output" style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 11px; max-height: 300px; overflow-y: auto;"></pre>
+    </details>
+
+    <script type="module" src="dist/bundle.js"></script>
   </body>
 </html>

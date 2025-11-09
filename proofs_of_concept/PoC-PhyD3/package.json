@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm",
+    "dev": "npm run build && npx http-server -p 8080 -o",
+    "watch": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm --watch",
+    "serve": "npx http-server -p 8080 -o"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@vibbioinfocore/phyd3": "^2.0.0-alpha.0",
     "@vibbioinfocore/phyd3-parser-compat": "^0.0.2"

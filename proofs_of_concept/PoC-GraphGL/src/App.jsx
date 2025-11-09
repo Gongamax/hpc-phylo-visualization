@@ -1,51 +1,68 @@
+import React, { Component } from "react";
 
-import GraphGL, { JSONLoader, NODE_TYPE, D3ForceLayout } from "@frutuoso/graph.gl";
+// graph.gl
+import GraphGL, {
+  D3ForceLayout,
+  JSONLoader,
+  NODE_TYPE,
+} from "@frutuoso/graph.gl";
 
-const demoData = {
-  nodes: [
-    { id: "A" },
-    { id: "B" },
-    { id: "C" }
-  ],
-  edges: [
-    { id: "AB", sourceId: "A", targetId: "B" },
-    { id: "BC", sourceId: "B", targetId: "C" },
-    { id: "CA", sourceId: "C", targetId: "A" }
-  ]
-};
+import SAMPLE_GRAPH_DATASETS from "./sample-datasets";
 
-const App = () => {
-  const graph = JSONLoader({
-    json: demoData,
-    nodeParser: (node) => ({ id: node.id }),
-    edgeParser: (edge) => ({
-      id: edge.id,
-      sourceId: edge.sourceId,
-      targetId: edge.targetId,
-      directed: true,
-    }),
-  });
-  return (
-    <div style={{ width: "100vw", height: "100vh" }}>
-      <GraphGL
-        graph={graph}
-        layout={new D3ForceLayout()}
-        nodeStyle={[
-          {
-            type: NODE_TYPE.CIRCLE,
-            radius: 10,
-            fill: "blue",
-            opacity: 1,
-          },
-        ]}
-        edgeStyle={{
-          stroke: "black",
-          strokeWidth: 2,
-        }}
-        enableDragging
-      />
-    </div>
-  );
-};
+const DEFAULT_NODE_SIZE = 5;
 
-export default App;
+const DEFAULT_DATASET = "Random (20, 40)";
+
+class Root extends Component {
+  state = {
+    selectedDataset: DEFAULT_DATASET,
+  };
+
+  handleChangeGraph = ({ target: { value } }) =>
+    this.setState({ selectedDataset: value });
+
+  render() {
+    const { selectedDataset } = this.state;
+    const graphData = SAMPLE_GRAPH_DATASETS[selectedDataset]();
+    const graph = JSONLoader({ json: graphData });
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <div style={{ width: "100%", zIndex: 999 }}>
+          <div>
+            Dataset:
+            <select
+              value={this.state.selectedDataset}
+              onChange={this.handleChangeGraph}
+            >
+              {Object.keys(SAMPLE_GRAPH_DATASETS).map((data) => (
+                <option key={data} value={data}>
+                  {data}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div style={{ width: "100%", flex: 1 }}>
+          <GraphGL
+            graph={graph}
+            layout={new D3ForceLayout()}
+            nodeStyle={[
+              {
+                type: NODE_TYPE.CIRCLE,
+                radius: DEFAULT_NODE_SIZE,
+                fill: "red",
+              },
+            ]}
+            edgeStyle={{
+              stroke: "#000",
+              strokeWidth: 1,
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Root;
