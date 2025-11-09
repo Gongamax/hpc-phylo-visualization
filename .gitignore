@@ -1,1 +1,19 @@
 datasets/
+
+# macOS
+.DS_Store
+
+# Node / JS
+node_modules/
+package-lock.json
+
+# VS Code
+.vscode/
+
+# Results, generated figures and large outputs
+results/
+
+# Ignore large raw data files (patterns) to avoid accidental commits
+data/**/*-cgMLST
+data/**/(*cgMLST|*cgmlst|*CGMLST)
+datasets/**
