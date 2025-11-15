@@ -1,42 +1,19 @@
-// PhyD3 Clean Demo - Direct PhyloXML Support
-import { makeCompatTable, phyloxml } from "@vibbioinfocore/phyd3-parser-compat";
+// PhyD3 Clean Demo - Newick Support via Phylio
 import { build } from "@vibbioinfocore/phyd3";
+import { parse as parseNewick } from "@vibbioinfocore/phylio";
 
 // Global state
 let currentSvg = null;
 
-// Example PhyloXML trees
+// Example Newick trees
 const examples = {
-  simple: `<?xml version="1.0" encoding="UTF-8"?>
-<phyloxml xmlns="http://www.phyloxml.org">
-  <phylogeny rooted="true">
-    <clade>
-      <name>Root</name>
-      <clade><name>A</name></clade>
-      <clade><name>B</name></clade>
-    </clade>
-  </phylogeny>
-</phyloxml>`,
-  
-  withBranchLengths: `<?xml version="1.0" encoding="UTF-8"?>
-<phyloxml xmlns="http://www.phyloxml.org">
-  <phylogeny rooted="true">
-    <clade>
-      <clade>
-        <name>Human</name>
-        <branch_length>0.2</branch_length>
-      </clade>
-      <clade>
-        <name>Chimp</name>
-        <branch_length>0.3</branch_length>
-      </clade>
-    </clade>
-  </phylogeny>
-</phyloxml>`,
+  simple: "(A,B,(C,D));",
+  withBranchLengths: "((Human:0.2,Chimp:0.3):0.3,(Mouse:0.5,Rat:0.4):0.2);",
+  complex: "(((A:0.2,B:0.3):0.3,(C:0.5,D:0.3):0.2):0.3,E:0.7):0.0;",
 };
 
 window.loadExample = function (exampleName) {
-  const input = document.getElementById("phyloxml-input");
+  const input = document.getElementById("newick-input");
   input.value = examples[exampleName];
   showError("");
 };
@@ -58,51 +35,99 @@ function updateDebugOutput(text) {
   }
 }
 
-function renderTree(phyloXMLString) {
-  let debugInfo = [];
+function renderTree(newickString) {
+  const treeContainer = document.getElementById("tree-container");
+  const debugInfo = [];
+
+  treeContainer.innerHTML = "";
 
   try {
-    showError("");
-    debugInfo.push(`Parsing PhyloXML...\n`);
+    debugInfo.push(`Parsing Newick...`);
 
-    // Parse the PhyloXML
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(phyloXMLString, "text/xml");
+    // Parse Newick with Phylio
+    const phylioData = parseNewick(newickString);
 
-    // Check for XML parsing errors
-    const parseError = doc.querySelector("parsererror");
-    if (parseError) {
-      throw new Error("Invalid XML format");
+    debugInfo.push(`Nodes: ${phylioData.nodes.length}`);
+    debugInfo.push(`Edges: ${phylioData.edges.length}`);
+
+    // Transform Phylio output to PhyD3 format
+    // Phylio uses "branchLength" property, PhyD3 expects "length"
+    // Phylio uses plain objects for attributes, PhyD3 expects Map
+    debugInfo.push(`Transforming data for PhyD3...`);
+    const phyd3Data = {
+      metadata: phylioData.metadata,
+      nodes: phylioData.nodes.map((node) => ({
+        name: node.name,
+        event: node.event,
+        ref: node.ref,
+        length: node.branchLength || 0, // Convert branchLength to length
+        attributes: new Map(Object.entries(node.attributes || {})), // Convert to Map
+      })),
+      edges: phylioData.edges,
+    };
+
+    // PhyD3 build with performance options for large trees
+    debugInfo.push(`Building PhyD3 visualization...`);
+
+    // Get user options
+    const autoPerformance =
+      document.getElementById("opt-auto-performance")?.checked ?? true;
+    const showLabels =
+      document.getElementById("opt-show-labels")?.checked ?? true;
+    const showLengths =
+      document.getElementById("opt-show-lengths")?.checked ?? true;
+
+    // For large trees (>1000 nodes), use performance-optimized settings
+    const isLargeTree = phyd3Data.nodes.length > 1000;
+    const usePerformanceMode = autoPerformance && isLargeTree;
+
+    const options = {
+      width: isLargeTree ? 1400 : 800,
+      height: isLargeTree ? 1200 : 600,
+      dynamicHide: usePerformanceMode,
+      showLabels: usePerformanceMode ? false : showLabels,
+      showNodeNames: usePerformanceMode ? false : showLabels,
+      showLengthValues: showLengths,
+      showSupportValues: showLengths,
+      showDomains: !usePerformanceMode,
+      showGraphs: !usePerformanceMode,
+      showTaxonomy: !usePerformanceMode,
+      showPhylogram: true,
+    };
+
+    if (usePerformanceMode) {
+      debugInfo.push(
+        `⚡ PERFORMANCE MODE ENABLED (${phyd3Data.nodes.length} nodes)`
+      );
+      debugInfo.push(`- Labels disabled for performance`);
+      debugInfo.push(`- Dynamic hiding enabled`);
+      debugInfo.push(`- Extra features disabled`);
+    } else {
+      debugInfo.push(`Normal rendering mode (${phyd3Data.nodes.length} nodes)`);
     }
-    debugInfo.push(`✓ XML parsed successfully\n`);
 
-    // Build the tree using PhyD3
-    const svg = build(makeCompatTable(phyloxml.parse(doc)));
-    debugInfo.push(`✓ Tree built\n`);
+    const svg = build(phyd3Data, options);
 
-    const svgNode = svg && (typeof svg.node === "function" ? svg.node() : svg);
-    if (!svgNode) {
-      throw new Error("Failed to build tree visualization");
-    }
+    // Append to container
+    currentSvg = svg.node();
+    treeContainer.appendChild(currentSvg);
 
-    // Clear container and append new tree
-    const container = document.getElementById("tree-container");
-    container.innerHTML = "";
-    container.appendChild(svgNode);
-    currentSvg = svgNode;
+    // Apply custom styles
+    styleTree(currentSvg);
+
+    // Enable export button
     document.getElementById("export-svg").disabled = false;
 
-    // Style the SVG for better visibility
-    styleTree(svgNode);
-    debugInfo.push(`✓ Tree rendered successfully!`);
-
+    // Update debug output
     updateDebugOutput(debugInfo.join("\n"));
+    showError("");
+
+    debugInfo.push(`Tree rendered successfully!`);
   } catch (error) {
     console.error("Error rendering tree:", error);
-    debugInfo.push(`\n❌ ERROR: ${error.message}`);
-    updateDebugOutput(debugInfo.join("\n"));
     showError(`Error: ${error.message}`);
-    document.getElementById("export-svg").disabled = true;
+    debugInfo.push(`ERROR: ${error.message}`);
+    updateDebugOutput(debugInfo.join("\n"));
   }
 }
 
@@ -154,12 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadBtn.addEventListener("click", () => {
     console.log("Load button clicked");
-    const phyloXMLString = document.getElementById("phyloxml-input").value.trim();
-    if (!phyloXMLString) {
-      showError("Please enter a PhyloXML tree");
+    const newickString = document.getElementById("newick-input").value.trim();
+    if (!newickString) {
+      showError("Please enter a Newick format tree");
       return;
     }
-    renderTree(phyloXMLString);
+    renderTree(newickString);
   });
 
   exportBtn.addEventListener("click", () => {
@@ -191,8 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load default example on page load
   console.log("Loading default tree...");
-  const defaultXML = document.getElementById("phyloxml-input").value;
-  if (defaultXML) {
-    renderTree(defaultXML);
+  const defaultNewick = document.getElementById("newick-input").value;
+  if (defaultNewick) {
+    renderTree(defaultNewick);
   }
 });

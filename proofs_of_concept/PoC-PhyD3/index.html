@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>PhyD3 Demo - PhyloXML Viewer</title>
+    <title>PhyD3 Demo - Newick Viewer</title>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -31,7 +31,7 @@
       }
       textarea {
         width: 100%;
-        height: 200px;
+        height: 150px;
         padding: 10px;
         border: 2px solid #ddd;
         border-radius: 4px;
@@ -113,39 +113,62 @@
     </style>
   </head>
   <body>
-    <h1>�� PhyD3 Demo - PhyloXML Tree Visualization</h1>
+    <h1>🌳 PhyD3 Demo - Newick Tree Visualization</h1>
 
     <div class="info">
-      This demo uses the PhyD3 library to visualize phylogenetic trees in PhyloXML format.
+      This demo uses PhyD3 with Phylio to visualize phylogenetic trees in Newick
+      format. PhyD3 handles large trees efficiently!
     </div>
 
     <div class="controls">
-      <label for="phyloxml-input">PhyloXML Format Tree:</label>
-      <textarea id="phyloxml-input" placeholder="Paste PhyloXML format here..."><?xml version="1.0" encoding="UTF-8"?>
-<phyloxml xmlns="http://www.phyloxml.org">
-  <phylogeny rooted="true">
-    <clade>
-      <name>Root</name>
-      <clade><name>A</name><branch_length>0.2</branch_length></clade>
-      <clade><name>B</name><branch_length>0.3</branch_length></clade>
-      <clade>
-        <clade><name>C</name><branch_length>0.5</branch_length></clade>
-        <clade><name>D</name><branch_length>0.3</branch_length></clade>
-      </clade>
-    </clade>
-  </phylogeny>
-</phyloxml></textarea>
+      <label for="newick-input">Newick Format Tree:</label>
+      <textarea id="newick-input" placeholder="Paste Newick format here...">
+(((A:0.2,B:0.3):0.3,(C:0.5,D:0.3):0.2):0.3,E:0.7):0.0;</textarea
+      >
 
       <div class="examples">
         <strong>Example trees:</strong>
         <a onclick="loadExample('simple')">Simple</a> |
-        <a onclick="loadExample('withBranchLengths')">With Branch Lengths</a>
+        <a onclick="loadExample('withBranchLengths')">With Branch Lengths</a> |
+        <a onclick="loadExample('complex')">Complex</a>
       </div>
 
       <div class="button-group">
         <button id="load-tree">🔄 Load Tree</button>
-        <button id="export-svg" class="export-btn" disabled>💾 Export SVG</button>
-        <button id="clear-tree" style="background-color: #f44336">🗑️ Clear</button>
+        <button id="export-svg" class="export-btn" disabled>
+          💾 Export SVG
+        </button>
+        <button id="clear-tree" style="background-color: #f44336">
+          🗑️ Clear
+        </button>
+      </div>
+
+      <!-- Performance Options -->
+      <div
+        style="
+          margin-top: 15px;
+          padding: 12px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          background: #fffef7;
+          border-left: 4px solid #ff9800;
+        "
+      >
+        <strong>⚡ Performance Options:</strong>
+        <div style="margin-top: 8px; font-size: 13px">
+          <label style="display: block; margin: 5px 0">
+            <input type="checkbox" id="opt-auto-performance" checked />
+            Auto-optimize for large trees (>1000 nodes)
+          </label>
+          <label style="display: block; margin: 5px 0">
+            <input type="checkbox" id="opt-show-labels" checked />
+            Show labels (disable for better performance)
+          </label>
+          <label style="display: block; margin: 5px 0">
+            <input type="checkbox" id="opt-show-lengths" checked />
+            Show branch lengths
+          </label>
+        </div>
       </div>
 
       <div id="error-message" class="error"></div>
@@ -153,11 +176,29 @@
 
     <div id="tree-container"></div>
 
-    <details style="margin-top: 20px; background: white; padding: 15px; border-radius: 8px;">
+    <details
+      style="
+        margin-top: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+      "
+    >
       <summary style="cursor: pointer; font-weight: bold; color: #666">
         🔍 Debug Info (click to expand)
       </summary>
-      <pre id="debug-output" style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 11px; max-height: 300px; overflow-y: auto;"></pre>
+      <pre
+        id="debug-output"
+        style="
+          background: #f5f5f5;
+          padding: 10px;
+          border-radius: 4px;
+          overflow-x: auto;
+          font-size: 11px;
+          max-height: 300px;
+          overflow-y: auto;
+        "
+      ></pre>
     </details>
 
     <script type="module" src="dist/bundle.js"></script>

@@ -1,23 +1,23 @@
 from ete3 import Tree
 import random
 
+
 # Function to generate a random phylogenetic tree in Newick format
 def generate_tree(n_leaves: int, output_file: str):
     print(f"Generating tree with {n_leaves:,} profiles...")
 
     # Generate a random tree topology
     t = Tree()
-    t.populate(
-        n_leaves,
-        names_library=[f"Species_{i}" for i in range(1, n_leaves + 1)]
-    )
+    t.populate(n_leaves, names_library=[f"Species_{i}" for i in range(1, n_leaves + 1)])
 
     # Assign random branch lengths
     for node in t.traverse():
         node.dist = round(random.uniform(0.001, 0.2), 4)
 
     # Write tree to Newick file
-    newick_str = t.write(format=5)  # format=5 preserves internal node labels and branch lengths
+    newick_str = t.write(
+        format=5
+    )  # format=5 preserves internal node labels and branch lengths
     with open(output_file, "w") as f:
         f.write(newick_str)
 
@@ -25,6 +25,7 @@ def generate_tree(n_leaves: int, output_file: str):
 
 
 if __name__ == "__main__":
+    generate_tree(1_000, "tree_1k.newick")
     generate_tree(10_000, "tree_10k.newick")
     generate_tree(30_000, "tree_30k.newick")
     generate_tree(50_000, "tree_50k.newick")

@@ -13,8 +13,8 @@ import {
 import "./App.css";
 
 function App() {
-  const [nodeCount, setNodeCount] = useState(100); // Start with 100 nodes for better demo
-  const [edgeCount, setEdgeCount] = useState(200); // 2x edges for reasonable density
+  const [nodeCount, setNodeCount] = useState(100);
+  const [edgeCount, setEdgeCount] = useState(200);
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [mstEdges, setMstEdges] = useState<Edge[]>([]);

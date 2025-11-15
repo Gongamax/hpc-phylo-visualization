@@ -17,3 +17,6 @@ results/
 data/**/*-cgMLST
 data/**/(*cgMLST|*cgmlst|*CGMLST)
 datasets/**
+
+# Ignore generated edgelist CSV files (can be regenerated from .newick files)
+*_edgelist.csv
