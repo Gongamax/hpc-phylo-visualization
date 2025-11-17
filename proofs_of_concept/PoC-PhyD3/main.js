@@ -38,6 +38,7 @@ function updateDebugOutput(text) {
 function renderTree(newickString) {
   const treeContainer = document.getElementById("tree-container");
   const debugInfo = [];
+  const startTotal = performance.now();
 
   treeContainer.innerHTML = "";
 
@@ -45,14 +46,15 @@ function renderTree(newickString) {
     debugInfo.push(`Parsing Newick...`);
 
     // Parse Newick with Phylio
+    const startParse = performance.now();
     const phylioData = parseNewick(newickString);
+    const parseTime = (performance.now() - startParse).toFixed(2);
 
     debugInfo.push(`Nodes: ${phylioData.nodes.length}`);
     debugInfo.push(`Edges: ${phylioData.edges.length}`);
+    debugInfo.push(`Parse Time: ${parseTime}ms`);
 
     // Transform Phylio output to PhyD3 format
-    // Phylio uses "branchLength" property, PhyD3 expects "length"
-    // Phylio uses plain objects for attributes, PhyD3 expects Map
     debugInfo.push(`Transforming data for PhyD3...`);
     const phyd3Data = {
       metadata: phylioData.metadata,
@@ -60,8 +62,8 @@ function renderTree(newickString) {
         name: node.name,
         event: node.event,
         ref: node.ref,
-        length: node.branchLength || 0, // Convert branchLength to length
-        attributes: new Map(Object.entries(node.attributes || {})), // Convert to Map
+        length: node.branchLength || 0,
+        attributes: new Map(Object.entries(node.attributes || {})),
       })),
       edges: phylioData.edges,
     };
@@ -106,7 +108,9 @@ function renderTree(newickString) {
       debugInfo.push(`Normal rendering mode (${phyd3Data.nodes.length} nodes)`);
     }
 
+    const startRender = performance.now();
     const svg = build(phyd3Data, options);
+    const renderTime = (performance.now() - startRender).toFixed(2);
 
     // Append to container
     currentSvg = svg.node();
@@ -115,14 +119,21 @@ function renderTree(newickString) {
     // Apply custom styles
     styleTree(currentSvg);
 
+    const totalTime = (performance.now() - startTotal).toFixed(2);
+
     // Enable export button
     document.getElementById("export-svg").disabled = false;
 
-    // Update debug output
+    // Update debug output with performance metrics
+    debugInfo.push(``);
+    debugInfo.push(`=== Performance Metrics ===`);
+    debugInfo.push(`Parse Time: ${parseTime}ms`);
+    debugInfo.push(`Render Time: ${renderTime}ms`);
+    debugInfo.push(`Total Time: ${totalTime}ms`);
+    debugInfo.push(`Tree rendered successfully!`);
+
     updateDebugOutput(debugInfo.join("\n"));
     showError("");
-
-    debugInfo.push(`Tree rendered successfully!`);
   } catch (error) {
     console.error("Error rendering tree:", error);
     showError(`Error: ${error.message}`);

@@ -20,6 +20,11 @@ function App() {
   const [mstEdges, setMstEdges] = useState<Edge[]>([]);
   const [showMST, setShowMST] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [metrics, setMetrics] = useState({
+    graphGenTime: 0,
+    mstTime: 0,
+    totalTime: 0,
+  });
   const [graphType, setGraphType] = useState<"random" | "phylogenetic">(
     "random"
   );
@@ -54,13 +59,20 @@ function App() {
       const mst = kruskalMST(newNodes, newEdges);
       const mstTime = performance.now() - mstStartTime;
 
+      const totalTime = graphGenTime + mstTime;
+
       console.log(`Graph generation: ${graphGenTime.toFixed(2)}ms`);
       console.log(`MST computation: ${mstTime.toFixed(2)}ms`);
-      console.log(`Total time: ${(graphGenTime + mstTime).toFixed(2)}ms`);
+      console.log(`Total time: ${totalTime.toFixed(2)}ms`);
 
       setNodes(newNodes);
       setEdges(newEdges);
       setMstEdges(mst);
+      setMetrics({
+        graphGenTime: parseFloat(graphGenTime.toFixed(2)),
+        mstTime: parseFloat(mstTime.toFixed(2)),
+        totalTime: parseFloat(totalTime.toFixed(2)),
+      });
       setIsGenerating(false);
     }, 10);
   }, [nodeCount, edgeCount, graphType, layoutType]);
@@ -98,6 +110,8 @@ function App() {
           const mst = kruskalMST(result.nodes, result.edges);
           const mstTime = performance.now() - mstStartTime;
 
+          const totalTime = graphGenTime + mstTime;
+
           console.log(
             `Phylogenetic tree parsing: ${graphGenTime.toFixed(2)}ms`
           );
@@ -106,6 +120,11 @@ function App() {
           setNodes(result.nodes);
           setEdges(result.edges);
           setMstEdges(mst);
+          setMetrics({
+            graphGenTime: parseFloat(graphGenTime.toFixed(2)),
+            mstTime: parseFloat(mstTime.toFixed(2)),
+            totalTime: parseFloat(totalTime.toFixed(2)),
+          });
           setIsGenerating(false);
         } catch (error) {
           console.error("Error parsing Newick format:", error);
@@ -152,6 +171,48 @@ function App() {
               onGenerateGraph={generateGraph}
               onLoadNewick={handleLoadNewick}
             />
+
+            {nodes.length > 0 && (
+              <div
+                style={{
+                  marginTop: "20px",
+                  padding: "15px",
+                  backgroundColor: "#2a2a2a",
+                  borderRadius: "8px",
+                  fontSize: "12px",
+                  fontFamily: "monospace",
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                    fontSize: "14px",
+                  }}
+                >
+                  Performance Metrics
+                </div>
+                <div>
+                  Graph Gen: <strong>{metrics.graphGenTime}ms</strong>
+                </div>
+                <div>
+                  MST Compute: <strong>{metrics.mstTime}ms</strong>
+                </div>
+                <div>
+                  Total: <strong>{metrics.totalTime}ms</strong>
+                </div>
+                <div
+                  style={{
+                    marginTop: "8px",
+                    paddingTop: "8px",
+                    borderTop: "1px solid #444",
+                  }}
+                >
+                  Nodes: <strong>{nodes.length}</strong> | Edges:{" "}
+                  <strong>{edges.length}</strong>
+                </div>
+              </div>
+            )}
           </aside>
 
           <section className="graph-section">

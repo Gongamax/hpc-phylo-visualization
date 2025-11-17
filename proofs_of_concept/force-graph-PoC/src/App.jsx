@@ -6,8 +6,10 @@ const SAMPLE_DATASETS = {
   "Phylo: Simulated 1K": "/data/simulated/ete3/tree_1k_edgelist.csv",
   "Phylo: Simulated 3K": "/data/simulated/ete3/tree_3k_edgelist.csv",
   "Phylo: Simulated 10K": "/data/simulated/ete3/tree_10k_edgelist.csv",
-  "Phylo: H. influenzae MLST": "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-MLST_tree_edgelist.csv",
-  "Phylo: C. coli MLST": "/data/pubmlst/campylobacter_coli/coli-MLST_tree_edgelist.csv",
+  "Phylo: H. influenzae MLST":
+    "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-MLST_tree_edgelist.csv",
+  "Phylo: C. coli MLST":
+    "/data/pubmlst/campylobacter_coli/coli-MLST_tree_edgelist.csv",
 };
 
 export default function App() {
@@ -15,47 +17,91 @@ export default function App() {
   const [selectedDataset, setSelectedDataset] = useState("Phylo: Simulated 1K");
   const [viewMode, setViewMode] = useState("2D");
   const [isLoading, setIsLoading] = useState(false);
-  const [metrics, setMetrics] = useState({ loadTime: 0, nodeCount: 0, edgeCount: 0 });
+  const [metrics, setMetrics] = useState({
+    loadTime: 0,
+    parseTime: 0,
+    renderTime: 0,
+    totalTime: 0,
+    nodeCount: 0,
+    edgeCount: 0,
+  });
   const fgRef = useRef();
+  const renderStartTime = useRef(null);
 
   const loadDataset = async (datasetName) => {
     setIsLoading(true);
-    const startTime = performance.now();
 
     try {
       const csvPath = SAMPLE_DATASETS[datasetName];
+
+      // Measure CSV fetch time
+      const startFetch = performance.now();
       const response = await fetch(csvPath);
       const text = await response.text();
-      const lines = text.trim().split('\n');
-      
+      const fetchTime = performance.now() - startFetch;
+
+      // Measure parsing time
+      const startParse = performance.now();
+      const lines = text.trim().split("\n");
+
       const nodeSet = new Set();
       const links = [];
-      
+
       // Skip header
       for (let i = 1; i < lines.length; i++) {
-        const [source, target] = lines[i].split(',').map(s => s.trim());
+        const [source, target] = lines[i].split(",").map((s) => s.trim());
         if (source && target) {
           nodeSet.add(source);
           nodeSet.add(target);
           links.push({ source, target });
         }
       }
-      
-      const nodes = Array.from(nodeSet).map(id => ({ id }));
-      const loadTime = (performance.now() - startTime).toFixed(2);
-      
+
+      const nodes = Array.from(nodeSet).map((id) => ({ id }));
+      const parseTime = performance.now() - startParse;
+      const loadTime = fetchTime + parseTime;
+
+      // Set render start time before component renders
+      renderStartTime.current = performance.now();
+
       setGraphData({ nodes, links });
       setMetrics({
-        loadTime,
+        loadTime: loadTime.toFixed(2),
+        parseTime: parseTime.toFixed(2),
+        renderTime: 0, // Will be updated after first render
+        totalTime: 0, // Will be updated after first render
         nodeCount: nodes.length,
         edgeCount: links.length,
       });
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading dataset:', error);
+      console.error("Error loading dataset:", error);
       setIsLoading(false);
     }
   };
+
+  // Measure render completion
+  useEffect(() => {
+    if (graphData.nodes.length > 0 && renderStartTime.current) {
+      // Use requestAnimationFrame to ensure DOM has updated
+      requestAnimationFrame(() => {
+        const renderTime = (
+          performance.now() - renderStartTime.current
+        ).toFixed(2);
+        const totalTime = (
+          parseFloat(metrics.loadTime) + parseFloat(renderTime)
+        ).toFixed(2);
+
+        setMetrics((prev) => ({
+          ...prev,
+          renderTime,
+          totalTime,
+        }));
+
+        renderStartTime.current = null;
+      });
+    }
+  }, [graphData, metrics.loadTime]);
 
   useEffect(() => {
     loadDataset(selectedDataset);
@@ -70,26 +116,37 @@ export default function App() {
   };
 
   return (
-    <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Control Panel */}
-      <div style={{
-        padding: '10px',
-        background: '#f0f0f0',
-        borderBottom: '1px solid #ccc',
-        display: 'flex',
-        gap: '20px',
-        alignItems: 'center',
-      }}>
+      <div
+        style={{
+          padding: "10px",
+          background: "#f0f0f0",
+          borderBottom: "1px solid #ccc",
+          display: "flex",
+          gap: "20px",
+          alignItems: "center",
+        }}
+      >
         <div>
           <strong>Dataset:</strong>
           <select
             value={selectedDataset}
             onChange={handleDatasetChange}
-            style={{ marginLeft: '10px', padding: '5px' }}
+            style={{ marginLeft: "10px", padding: "5px" }}
             disabled={isLoading}
           >
             {Object.keys(SAMPLE_DATASETS).map((name) => (
-              <option key={name} value={name}>{name}</option>
+              <option key={name} value={name}>
+                {name}
+              </option>
             ))}
           </select>
         </div>
@@ -99,7 +156,7 @@ export default function App() {
           <select
             value={viewMode}
             onChange={handleViewModeChange}
-            style={{ marginLeft: '10px', padding: '5px' }}
+            style={{ marginLeft: "10px", padding: "5px" }}
           >
             <option value="2D">2D</option>
             <option value="3D">3D</option>
@@ -107,14 +164,19 @@ export default function App() {
         </div>
 
         {!isLoading && graphData.nodes.length > 0 && (
-          <div style={{ fontSize: '12px', color: '#555' }}>
+          <div style={{ fontSize: "12px", color: "#555" }}>
             <strong>Performance:</strong>
+            {" | "}
+            Load: <strong>{metrics.loadTime}ms</strong> (fetch + parse:{" "}
+            {metrics.parseTime}ms)
+            {" | "}
+            Render: <strong>{metrics.renderTime}ms</strong>
+            {" | "}
+            Total: <strong>{metrics.totalTime}ms</strong>
             {" | "}
             Nodes: <strong>{metrics.nodeCount}</strong>
             {" | "}
             Edges: <strong>{metrics.edgeCount}</strong>
-            {" | "}
-            Load: <strong>{metrics.loadTime}ms</strong>
           </div>
         )}
 
@@ -122,7 +184,7 @@ export default function App() {
       </div>
 
       {/* Graph Visualization */}
-      <div style={{ flex: 1, position: 'relative' }}>
+      <div style={{ flex: 1, position: "relative" }}>
         {!isLoading && graphData.nodes.length > 0 && (
           <>
             {viewMode === "2D" && (
