@@ -65,13 +65,33 @@ const SAMPLE_GRAPH_DATASETS = {
     loadPhylogeneticTree("/data/simulated/ete3/tree_3k_edgelist.csv"),
   "Phylo: Simulated 10K": () =>
     loadPhylogeneticTree("/data/simulated/ete3/tree_10k_edgelist.csv"),
+  "Phylo: Simulated 30K": () =>
+    loadPhylogeneticTree("/data/simulated/ete3/tree_30k_edgelist.csv"),
+  "Phylo: Simulated 50K": () =>
+    loadPhylogeneticTree("/data/simulated/ete3/tree_50k_edgelist.csv"),
   "Phylo: H. influenzae MLST": () =>
     loadPhylogeneticTree(
       "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-MLST_tree_edgelist.csv"
     ),
+  "Phylo: H. influenzae cgMLST": () =>
+    loadPhylogeneticTree(
+      "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-cgMLST_tree_edgelist.csv"
+    ),
   "Phylo: C. coli MLST": () =>
     loadPhylogeneticTree(
       "/data/pubmlst/campylobacter_coli/coli-MLST_tree_edgelist.csv"
+    ),
+  "Phylo: Neisseria MLST": () =>
+    loadPhylogeneticTree(
+      "/data/pubmlst/neisseria/neisseria-MLST_tree_edgelist.csv"
+    ),
+  "Phylo: S. aureus MLST": () =>
+    loadPhylogeneticTree(
+      "/data/pubmlst/staphylococcus_aureus/staphylococus-MLST_tree_edgelist.csv"
+    ),
+  "Phylo: S. pneumoniae MLST": () =>
+    loadPhylogeneticTree(
+      "/data/pubmlst/streptococcus_pneumoniae/pneumoniae-MLST_tree_edgelist.csv"
     ),
   "Ladder (10)": () => convertNgraphDataset(NgraphGenerators.ladder(10)),
   "BalancedBinTree (5)": () =>

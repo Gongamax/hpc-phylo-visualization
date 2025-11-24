@@ -461,35 +461,26 @@ export function phyloTreeToGraph(
           node.children.reduce((sum, child) => sum + (child.y || 0), 0) /
           node.children.length;
       }
-    }
 
-    // Add node to graph
-    nodes.push({
-      id: node.id,
-      label: node.name,
-      x: node.x,
-      y: node.y,
-      isLeaf: node.children.length === 0,
-      depth: node.depth,
-      branchLength: node.branchLength,
-    });
-
-    // Add edges to children
-    if (parentId) {
-      edges.push({
-        source: parentId,
-        target: node.id,
-        weight: node.branchLength,
+      // Add node to graph
+      nodes.push({
+        id: node.id,
+        label: node.name,
+        x: node.x,
+        y: node.y,
+        isLeaf: node.children.length === 0,
+        depth: node.depth,
+        branchLength: node.branchLength,
       });
-    }
 
-    // Process children (for non-leaf nodes when not already processed)
-    if (layoutType === "cladogram" && node.children.length > 0) {
-      node.children.forEach((child) => {
-        if (!nodes.find((n) => n.id === child.id)) {
-          processNode(child, node.id);
-        }
-      });
+      // Add edges to children
+      if (parentId) {
+        edges.push({
+          source: parentId,
+          target: node.id,
+          weight: node.branchLength,
+        });
+      }
     }
   }
 

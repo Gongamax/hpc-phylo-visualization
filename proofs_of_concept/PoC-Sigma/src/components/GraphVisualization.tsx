@@ -9,6 +9,7 @@ interface GraphVisualizationProps {
   mstEdges: Edge[];
   showMST: boolean;
   isPhylogenetic?: boolean;
+  onRender?: (renderTime: number) => void;
 }
 
 const GraphVisualization: React.FC<GraphVisualizationProps> = ({
@@ -17,6 +18,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
   mstEdges,
   showMST,
   isPhylogenetic = false,
+  onRender,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sigmaRef = useRef<Sigma | null>(null);
@@ -24,6 +26,8 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    const renderStartTime = performance.now();
 
     // Cleanup previous instance first
     if (sigmaRef.current) {
@@ -137,6 +141,11 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       console.log(`🎛️ Sigma settings:`, sigmaSettings);
 
       sigmaRef.current = new Sigma(graph, containerRef.current, sigmaSettings);
+
+      const renderTime = performance.now() - renderStartTime;
+      if (onRender) {
+        onRender(renderTime);
+      }
 
       console.log("✅ Sigma instance created successfully");
       console.log("Graph nodes:", graph.nodes().length);

@@ -20,20 +20,40 @@ class Root extends Component {
     graph: null,
     isLoading: true,
     loadTime: 0,
+    initTime: 0,
     renderTime: 0,
     totalTime: 0,
     nodeCount: 0,
     edgeCount: 0,
   };
 
+  renderStartTime = 0;
+
   componentDidMount() {
     this.loadGraph(DEFAULT_DATASET);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Measure React render time when loading finishes
+    if (prevState.isLoading && !this.state.isLoading) {
+      requestAnimationFrame(() => {
+        const renderTime = performance.now() - this.renderStartTime;
+        const totalTime =
+          parseFloat(this.state.loadTime) +
+          parseFloat(this.state.initTime) +
+          renderTime;
+
+        this.setState({
+          renderTime: renderTime.toFixed(2),
+          totalTime: totalTime.toFixed(2),
+        });
+      });
+    }
   }
 
   loadGraph = async (datasetName) => {
     // Clear previous graph immediately to prevent stale rendering
     this.setState({ isLoading: true, graph: null });
-    const startTotal = performance.now();
 
     try {
       // Measure data loading (fetch + parse)
@@ -42,19 +62,21 @@ class Root extends Component {
       const loadTime = performance.now() - startLoad;
 
       // Measure graph initialization (JSONLoader + layout creation)
-      const startRender = performance.now();
+      const startInit = performance.now();
       const graph = JSONLoader({ json: graphData });
-      const renderTime = performance.now() - startRender;
+      const initTime = performance.now() - startInit;
 
-      const totalTime = performance.now() - startTotal;
+      // Start measuring render time (React mount + WebGL init)
+      this.renderStartTime = performance.now();
 
       this.setState({
         graphData,
         graph,
         isLoading: false,
         loadTime: loadTime.toFixed(2),
-        renderTime: renderTime.toFixed(2),
-        totalTime: totalTime.toFixed(2),
+        initTime: initTime.toFixed(2),
+        renderTime: 0, // Will be updated in componentDidUpdate
+        totalTime: 0, // Will be updated in componentDidUpdate
         nodeCount: graphData.nodes?.length || 0,
         edgeCount: graphData.edges?.length || 0,
       });
@@ -75,6 +97,7 @@ class Root extends Component {
       graph,
       isLoading,
       loadTime,
+      initTime,
       renderTime,
       totalTime,
       nodeCount,
@@ -117,7 +140,9 @@ class Root extends Component {
               {" | "}
               Load: <strong>{loadTime}ms</strong>
               {" | "}
-              Init: <strong>{renderTime}ms</strong>
+              Init: <strong>{initTime}ms</strong>
+              {" | "}
+              Render: <strong>{renderTime}ms</strong>
               {" | "}
               Total: <strong>{totalTime}ms</strong>{" "}
               <span style={{ fontSize: "10px", color: "#888" }}>

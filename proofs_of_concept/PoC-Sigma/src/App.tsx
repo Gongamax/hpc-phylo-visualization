@@ -23,6 +23,7 @@ function App() {
   const [metrics, setMetrics] = useState({
     graphGenTime: 0,
     mstTime: 0,
+    renderTime: 0,
     totalTime: 0,
   });
   const [graphType, setGraphType] = useState<"random" | "phylogenetic">(
@@ -31,6 +32,16 @@ function App() {
   const [layoutType, setLayoutType] = useState<
     "cladogram" | "phylogram" | "circular"
   >("cladogram");
+
+  const handleRender = useCallback((renderTime: number) => {
+    setMetrics((prev) => ({
+      ...prev,
+      renderTime: parseFloat(renderTime.toFixed(2)),
+      totalTime: parseFloat(
+        (prev.graphGenTime + prev.mstTime + renderTime).toFixed(2)
+      ),
+    }));
+  }, []);
 
   const generateGraph = useCallback(async () => {
     setIsGenerating(true);
@@ -71,7 +82,8 @@ function App() {
       setMetrics({
         graphGenTime: parseFloat(graphGenTime.toFixed(2)),
         mstTime: parseFloat(mstTime.toFixed(2)),
-        totalTime: parseFloat(totalTime.toFixed(2)),
+        renderTime: 0,
+        totalTime: parseFloat(totalTime.toFixed(2)), // Will be updated after render
       });
       setIsGenerating(false);
     }, 10);
@@ -123,7 +135,8 @@ function App() {
           setMetrics({
             graphGenTime: parseFloat(graphGenTime.toFixed(2)),
             mstTime: parseFloat(mstTime.toFixed(2)),
-            totalTime: parseFloat(totalTime.toFixed(2)),
+            renderTime: 0,
+            totalTime: parseFloat(totalTime.toFixed(2)), // Will be updated after render
           });
           setIsGenerating(false);
         } catch (error) {
@@ -199,6 +212,9 @@ function App() {
                   MST Compute: <strong>{metrics.mstTime}ms</strong>
                 </div>
                 <div>
+                  Render: <strong>{metrics.renderTime}ms</strong>
+                </div>
+                <div>
                   Total: <strong>{metrics.totalTime}ms</strong>
                 </div>
                 <div
@@ -231,6 +247,7 @@ function App() {
                 mstEdges={mstEdges}
                 showMST={showMST}
                 isPhylogenetic={graphType === "phylogenetic"}
+                onRender={handleRender}
               />
             )}
           </section>

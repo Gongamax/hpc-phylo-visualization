@@ -6,10 +6,20 @@ const SAMPLE_DATASETS = {
   "Phylo: Simulated 1K": "/data/simulated/ete3/tree_1k_edgelist.csv",
   "Phylo: Simulated 3K": "/data/simulated/ete3/tree_3k_edgelist.csv",
   "Phylo: Simulated 10K": "/data/simulated/ete3/tree_10k_edgelist.csv",
+  "Phylo: Simulated 30K": "/data/simulated/ete3/tree_30k_edgelist.csv",
+  "Phylo: Simulated 50K": "/data/simulated/ete3/tree_50k_edgelist.csv",
   "Phylo: H. influenzae MLST":
     "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-MLST_tree_edgelist.csv",
+  "Phylo: H. influenzae cgMLST":
+    "/data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-cgMLST_tree_edgelist.csv",
   "Phylo: C. coli MLST":
     "/data/pubmlst/campylobacter_coli/coli-MLST_tree_edgelist.csv",
+  "Phylo: Neisseria MLST":
+    "/data/pubmlst/neisseria/neisseria-MLST_tree_edgelist.csv",
+  "Phylo: S. aureus MLST":
+    "/data/pubmlst/staphylococcus_aureus/staphylococus-MLST_tree_edgelist.csv",
+  "Phylo: S. pneumoniae MLST":
+    "/data/pubmlst/streptococcus_pneumoniae/pneumoniae-MLST_tree_edgelist.csv",
 };
 
 export default function App() {
