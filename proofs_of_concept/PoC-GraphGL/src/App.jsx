@@ -145,9 +145,6 @@ class Root extends Component {
               Render: <strong>{renderTime}ms</strong>
               {" | "}
               Total: <strong>{totalTime}ms</strong>{" "}
-              <span style={{ fontSize: "10px", color: "#888" }}>
-                (Note: WebGL rendering happens after these times)
-              </span>
             </div>
           )}
 
