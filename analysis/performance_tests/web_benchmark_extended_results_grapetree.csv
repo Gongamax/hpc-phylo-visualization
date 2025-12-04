@@ -1,0 +1,13 @@
+Tool,Dataset,Nodes,Run1_Total(ms),Run2_Total(ms),Run3_Total(ms),Run4_Total(ms),Run5_Total(ms),Run6_Total(ms),Run7_Total(ms),Median_Total(ms),Mean_Total(ms),StdDev_Total(ms),Median_FCP(ms),Median_LCP(ms),Median_DOMContentLoaded(ms),Median_LoadEvent(ms),Median_TBT(ms),Median_ScriptDuration(ms),Median_LayoutDuration(ms)
+"GrapeTree","pubmlst - campylobacter coli - coli-MLST tree",11737,17392,16330,15752,16346,15976,16204,17162,16330.00,16451.71,559.58,44.00,44.00,32.40,37.00,15768.00,0.00,0.00
+"GrapeTree","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,1172,1128,1152,1136,1158,1152,1119,1152.00,1145.29,17.08,36.00,36.00,30.80,35.10,592.00,0.00,0.00
+"GrapeTree","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,530,530,534,527,526,524,534,530.00,529.29,3.57,28.00,28.00,24.10,28.40,0.00,0.00,0.00
+"GrapeTree","pubmlst - neisseria - neisseria-MLST tree",15389,25340,22278,25963,24494,23347,23857,24803,24494.00,24297.43,1154.54,40.00,40.00,31.90,35.70,23931.00,0.01,0.00
+"GrapeTree","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,1627,1619,1617,1633,1671,1719,1636,1633.00,1646.00,34.13,44.00,44.00,36.70,40.60,1060.00,0.01,0.00
+"GrapeTree","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,11148,11993,11185,11458,10630,10700,10743,11148.00,11122.43,453.55,40.00,40.00,31.10,34.90,10587.00,0.02,0.00
+"GrapeTree","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,538,531,539,535,535,537,538,537.00,536.14,2.53,32.00,32.00,24.10,28.10,0.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 10k",10000,1472,1449,1515,1627,1721,1649,1547,1547.00,1568.57,92.64,52.00,52.00,42.30,46.20,982.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 1k",1000,692,627,621,620,618,619,621,621.00,631.14,24.99,36.00,36.00,25.60,29.40,61.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 30k",30000,1772,1745,1784,1769,1789,1772,1925,1772.00,1793.71,55.14,44.00,44.00,32.00,36.10,1191.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 3k",3000,871,922,861,846,850,841,859,859.00,864.29,25.34,40.00,40.00,27.90,31.90,299.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 50k",50000,2175,2322,2110,2060,2126,2107,2155,2126.00,2150.71,77.79,44.00,44.00,32.20,36.30,1534.00,0.00,0.00
