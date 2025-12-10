@@ -337,8 +337,8 @@ async function benchmarkPhyD3(page, newickFile, datasetName) {
         document.getElementById("load-tree").click();
       });
 
-      // Wait for tree to render - PhyD3 uses phylio which is SLOW (~36s+ for parsing)
-      await page.waitForSelector("#tree-container svg", { timeout: 300000 });
+      // Wait for tree to render - PhyD3 uses phylio which is SLOW (~55s+ for parsing 1950 nodes)
+      await page.waitForSelector("#tree-container svg", { timeout: 600000 });
 
       // Wait for rendering to complete (check debug output)
       await page.waitForFunction(
@@ -350,7 +350,7 @@ async function benchmarkPhyD3(page, newickFile, datasetName) {
               debug.textContent.includes("ERROR"))
           );
         },
-        { timeout: 300000 }
+        { timeout: 600000 }
       );
 
       const endTime = performance.now();

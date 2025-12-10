@@ -1,1 +1,0 @@
-Tool,Dataset,Nodes,Run1_Total(ms),Run2_Total(ms),Run3_Total(ms),Run4_Total(ms),Run5_Total(ms),Run6_Total(ms),Run7_Total(ms),Median_Total(ms),Mean_Total(ms),StdDev_Total(ms),Median_FCP(ms),Median_LCP(ms),Median_DOMContentLoaded(ms),Median_LoadEvent(ms),Median_TBT(ms),Median_ScriptDuration(ms),Median_LayoutDuration(ms)
