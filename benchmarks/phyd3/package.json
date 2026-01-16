@@ -1,0 +1,25 @@
+{
+  "name": "poc-phyd3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm",
+    "dev": "npm run build && npx http-server -p 8080 -o",
+    "watch": "esbuild main.js --bundle --outfile=dist/bundle.js --format=esm --watch",
+    "serve": "npx http-server -p 8080 -o"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@vibbioinfocore/phyd3": "^2.0.0-alpha.0",
+    "@vibbioinfocore/phyd3-parser-compat": "^0.0.2",
+    "@vibbioinfocore/phylio": "^1.1.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.11",
+    "http-server": "^14.1.1"
+  }
+}

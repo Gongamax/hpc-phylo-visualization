@@ -1,0 +1,4 @@
+dataset_name,file_path,median_load_time,mean_load_time,std_dev,all_runs,status,error_message
+pneumoniae-MLST_tree_edgelist.csv,/Users/goncalofrutuoso/Developer/Thesis/data/pubmlst/streptococcus_pneumoniae/pneumoniae-MLST_tree_edgelist.csv,46.7011,74.4273,49.8268,"[50.0144, 43.9326, 160.644, 131.8664, 42.0235, 45.8091, 46.7011]",Success,
+pneumoniae-tree_edgelist.csv,/Users/goncalofrutuoso/Developer/Thesis/data/pubmlst/streptococcus_pneumoniae/pneumoniae-tree_edgelist.csv,8.3515,8.2647,0.6402,"[8.2475, 6.8847, 8.7003, 8.3194, 8.7685, 8.5808, 8.3515]",Success,
+pneuomoniae-cgmlst-tree_edgelist.csv,/Users/goncalofrutuoso/Developer/Thesis/data/pubmlst/streptococcus_pneumoniae/pneuomoniae-cgmlst-tree_edgelist.csv,8.5424,8.5293,0.0844,"[8.488, 8.4915, 8.5424, 8.5681, 8.6596, 8.5662, 8.3894]",Success,

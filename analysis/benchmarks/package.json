@@ -1,0 +1,13 @@
+{
+  "name": "web-benchmarks",
+  "version": "1.0.0",
+  "description": "Automated benchmarks for web-based phylogenetic visualization tools",
+  "type": "module",
+  "scripts": {
+    "benchmark": "node web_benchmark.js",
+    "benchmark:headed": "node web_benchmark.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}
