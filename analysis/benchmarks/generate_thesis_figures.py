@@ -26,9 +26,9 @@ TOOL_COLORS = {
     "Force-Graph": "#2ecc71",  # Green (fastest)
     "GrapeTree": "#3498db",  # Blue
     "iTOL": "#9b59b6",  # Purple
-    "PhyloScape": "#e74c3c",  # Red
+    "Cytoscape": "#e74c3c",  # Red
     "Phylotree": "#f39c12",  # Orange
-    "Cytoscape": "#e67e22",  # Dark orange (slowest)
+    # "PhyloScape": "#e67e22",  # Dark orange (slowest)
 }
 
 # Tool markers for line plot
@@ -117,7 +117,7 @@ def load_benchmark_data():
         "Force-Graph",
         "Cytoscape",
         "GrapeTree",
-        "PhyloScape",
+        # "PhyloScape",
         "Phylotree",
         "iTOL",
     ]
@@ -143,7 +143,7 @@ def figure_a_scalability_wall(df, output_dir):
     node_counts = synthetic_df["Nodes"].values
 
     # Tools to plot (excluding Force-Graph for now to add it specially)
-    tools = ["Force-Graph", "Cytoscape", "GrapeTree", "iTOL", "PhyloScape", "Phylotree"]
+    tools = ["Force-Graph", "Cytoscape", "GrapeTree", "iTOL", "Phylotree"]
 
     # Create figure
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -239,7 +239,7 @@ def figure_b_realworld_performance(df, output_dir):
     realworld_df = df[df["Dataset"].isin(selected_datasets)].copy()
 
     # Tools to compare
-    tools = ["Force-Graph", "Cytoscape", "GrapeTree", "iTOL", "PhyloScape", "Phylotree"]
+    tools = ["Force-Graph", "Cytoscape", "GrapeTree", "iTOL", "Phylotree"]
 
     # Prepare data for grouped bar chart
     datasets = realworld_df["Dataset"].values

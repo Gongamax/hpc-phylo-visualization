@@ -1,0 +1,8 @@
+[DISTANCE] N=100000
+[main] INFO org.reflections.Reflections - Reflections took 90 ms to scan 1 urls, producing 22 keys and 52 values
+INFO: Started running command 'distance' with type 'hamming'
+[main] INFO org.reflections.Reflections - Reflections took 20 ms to scan 1 urls, producing 22 keys and 52 values
+INFO: Started reading file 'experiments_goeburst/sample_100000.tsv'
+INFO: Finished reading file 'experiments_goeburst/sample_100000.tsv'
+[main] INFO org.reflections.Reflections - Reflections took 11 ms to scan 1 urls, producing 22 keys and 52 values
+INFO: Started writing file 'experiments_goeburst/dist_100000.txt'

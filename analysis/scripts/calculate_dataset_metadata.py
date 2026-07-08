@@ -1,5 +1,6 @@
 import os
 import csv
+import argparse
 from pathlib import Path
 from collections import defaultdict
 
@@ -137,7 +138,43 @@ def find_dataset_files(datasets_dir):
     return dataset_files
 
 
-def main():
+def build_dataset_name_from_file(file_path):
+    """Generate a human-friendly dataset name from a file path."""
+    stem = file_path.stem
+    return stem.replace("_", " ").replace("-", " ").title()
+
+
+def get_dataset_files_from_input(input_path, default_datasets_dir):
+    """Resolve dataset files from a specific file/directory or fallback default datasets dir."""
+    if input_path is None:
+        return find_dataset_files(default_datasets_dir)
+
+    path = Path(input_path).expanduser().resolve()
+    dataset_files = {}
+
+    if path.is_file():
+        dataset_files[build_dataset_name_from_file(path)] = path
+        return dataset_files
+
+    if path.is_dir():
+        # If user points directly to the default datasets root, keep rich naming rules.
+        if path.samefile(default_datasets_dir):
+            return find_dataset_files(path)
+
+        # Otherwise, analyze all files in the provided directory recursively.
+        for file_path in sorted(path.rglob("*")):
+            if file_path.is_file():
+                key = build_dataset_name_from_file(file_path)
+                if key in dataset_files:
+                    key = f"{key} ({file_path.parent.name})"
+                dataset_files[key] = file_path
+        return dataset_files
+
+    print(f"Path does not exist: {path}")
+    return {}
+
+
+def main(cli_path=None):
     """Main function to analyze all datasets and print results."""
     # Get workspace root
     script_dir = Path(__file__).parent
@@ -147,8 +184,8 @@ def main():
     print("Dataset Metadata Calculator")
     print("=" * 80)
     print()
-    # Find all dataset files
-    dataset_files = find_dataset_files(datasets_dir)
+    # Find dataset files from CLI path (file/dir) or fallback default datasets dir
+    dataset_files = get_dataset_files_from_input(cli_path, datasets_dir)
     if not dataset_files:
         print("No dataset files found!")
         return
@@ -234,4 +271,14 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Analyze MLST/cgMLST dataset files and compute metadata."
+    )
+    parser.add_argument(
+        "path",
+        nargs="?",
+        default=None,
+        help="Optional path to a dataset file or directory (defaults to workspace datasets folder).",
+    )
+    args = parser.parse_args()
+    main(args.path)
