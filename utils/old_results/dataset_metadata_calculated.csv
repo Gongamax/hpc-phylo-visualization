@@ -1,0 +1,16 @@
+dataset,profile_length,distinct_elements,total_isolates,file
+Campylobacter Coli - MLST,7,14862,14862,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/campylobacter_coli/coli-MLST
+Campylobacter Coli - cgMLST,1350,173810,173810,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/campylobacter_coli/coli-cgMLST
+Clostridium - cgMLST (EnteroBase),2556,27962,27962,/Users/goncalofrutuoso/Developer/Thesis/datasets/enterobase/clostridium_scheme_data.txt
+Haemophilus Influenzae - MLST,7,3127,3127,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/haemophilus_influenzae/haemophilus_influenzae-MLST
+Haemophilus Influenzae - cgMLST,1047,17852,17852,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/haemophilus_influenzae/haemophilus_influenzae-cgMLST
+Neisseria - MLST,7,19131,19131,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/neisseria/neisseria-MLST
+Neisseria - cgMLST,1660,94497,94497,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/neisseria/neisseria-cgMLST
+Salmonella - cgMLST (EnteroBase),3003,99999,99999,/Users/goncalofrutuoso/Developer/Thesis/datasets/enterobase/salmonella-sample-100k.tsv
+Salmonella 10K - cgMLST (EnteroBase),3002,9971,9971,/Users/goncalofrutuoso/Developer/Thesis/datasets/enterobase/salmonella-sample-10k.tsv
+Salmonella 50K - cgMLST (EnteroBase),3002,9971,9971,/Users/goncalofrutuoso/Developer/Thesis/datasets/enterobase/salmonella-sample-50k.tsv
+Staphylococcus Aureus - MLST,7,10660,10660,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/staphylococcus_aureus/staphylococus-MLST
+Staphylococcus Aureus - cgMLST,1719,29207,29207,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/staphylococcus_aureus/staphylococcus-cgMLST
+Streptococcus Pneumoniae - MLST,7,20396,20396,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/streptococcus_pneumoniae/pneumoniae-MLST
+Streptococcus Pneumoniae - cgMLST,1235,101513,101513,/Users/goncalofrutuoso/Developer/Thesis/datasets/pubmlst/streptococcus_pneumoniae/pneuomoniae-cgMLST
+Vibrio - cgMLST (EnteroBase),1128,17646,17646,/Users/goncalofrutuoso/Developer/Thesis/datasets/enterobase/vibrio_scheme_data.txt

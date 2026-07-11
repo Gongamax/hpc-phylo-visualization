@@ -1,0 +1,32 @@
+\begin{table}[htbp]
+    \centering
+    \caption{Performance benchmark results for phylogenetic visualization tools. Times shown are median render times across 7 runs.}
+    \label{tab:benchmark_results}
+    \small
+    \begin{tabular}{lrrrrrr}
+        \toprule
+        Datasets & Force-Graph & Cytoscape & GrapeTree & PhyloScape & Phylotree & iTOL \\
+        \midrule
+        C. coli MLST & 37 ms & 14.82 s & 17.57 s & 4.05 s & 2.26 s & 3.14 s \\
+        C. coli cgMLST & 439 ms & 6.14 s & 567 ms & 4.09 s & 2.13 s & 3.52 s \\
+        Clostridium UPGMA & 163 ms & 7.17 s & 2.30 s & 4.06 s & 4.13 s & 24.53 s \\
+        Clostridium goeBURST & 653 ms & 16.50 s & 518 ms & 4.05 s & 1.59 s & 806 ms \\
+        H. influenzae MLST & 17 ms & 4.92 s & 1.09 s & 4.08 s & 1.69 s & 997 ms \\
+        H. influenzae cgMLST & 72 ms & 12.12 s & 519 ms & 4.08 s & 1.58 s & 685 ms \\
+        Neisseria MLST & 47 ms & 21.03 s & 28.25 s & 4.07 s & 2.52 s & 5.23 s \\
+        Neisseria cgMLST & --- & 5.24 s & 545 ms & 4.08 s & 1.59 s & 1.17 s \\
+        S. aureus MLST & 67 ms & --- & 11.44 s & 4.06 s & 2.99 s & 5.67 s \\
+        S. aureus NJ & 67 ms & 34.39 s & 2.11 s & 4.06 s & 2.50 s & 5.93 s \\
+        S. aureus cgMLST & 103 ms & 115.49 s & 1.64 s & 4.06 s & 2.77 s & 7.05 s \\
+        S. pneumoniae & 451 ms & 5.29 s & --- & --- & --- & --- \\
+        S. pneumoniae MLST & 56 ms & 40.03 s & 527 ms & 4.06 s & 2.66 s & 5.34 s \\
+        Salmonella 100K & 304 ms & 11.30 s & 547 ms & 4.06 s & 1.70 s & 1.85 s \\
+        Simulated 10K & 49 ms & 29.54 s & 1.64 s & 4.06 s & 2.47 s & 3.50 s \\
+        Simulated 1K & 10 ms & 4.80 s & 657 ms & 4.07 s & 1.69 s & 927 ms \\
+        Simulated 200K & 471 ms & 8.28 s & 7.13 s & 4.06 s & 6.79 s & --- \\
+        Simulated 30K & 138 ms & 5.66 s & 1.96 s & 4.08 s & --- & 12.47 s \\
+        Simulated 3K & 22 ms & 8.59 s & 838 ms & 4.07 s & --- & 1.52 s \\
+        Simulated 50K & 231 ms & 4.83 s & 2.28 s & 4.06 s & --- & 24.23 s \\
+        \bottomrule
+    \end{tabular}
+\end{table}

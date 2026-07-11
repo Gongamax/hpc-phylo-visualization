@@ -1,0 +1,37 @@
+Tool,Dataset,Nodes (approx),Run 1 (ms),Run 2 (ms),Run 3 (ms),Run 4 (ms),Run 5 (ms),Run 6 (ms),Run 7 (ms),Median (ms)
+"iTOL","pubmlst - campylobacter coli - coli-MLST tree",11737,3274,2982,3017,2963,2910,3014,2983,2983.00
+"iTOL","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,845,863,970,884,944,870,886,884.00
+"iTOL","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,594,530,547,539,564,535,535,539.00
+"iTOL","pubmlst - neisseria - neisseria-MLST tree",15389,5108,5175,5054,5028,5552,5066,5031,5066.00
+"iTOL","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,6885,6898,7025,7138,6809,6926,7019,6926.00
+"iTOL","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,5590,5553,5579,5526,5993,5528,5543,5553.00
+"iTOL","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,5457,5182,5141,5168,5099,5065,5399,5168.00
+"iTOL","simulated - ete3 - tree 10k",10000,3292,3338,3709,3268,3272,3242,3283,3283.00
+"iTOL","simulated - ete3 - tree 1k",1000,799,795,823,766,788,787,793,793.00
+"iTOL","simulated - ete3 - tree 30k",30000,10997,11041,11349,10900,11252,11079,12524,11079.00
+"iTOL","simulated - ete3 - tree 3k",3000,2608,1287,1555,1284,2987,1246,1698,1555.00
+"iTOL","simulated - ete3 - tree 50k",50000,22072,22155,23118,22018,22137,23519,22697,22155.00
+"Phylotree.js","pubmlst - campylobacter coli - coli-MLST tree",11737,2837,1276,1280,1308,1287,1307,1259,1287.00
+"Phylotree.js","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,843,797,811,807,796,803,837,807.00
+"Phylotree.js","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,714,699,709,719,714,709,678,709.00
+"Phylotree.js","pubmlst - neisseria - neisseria-MLST tree",15389,1387,1466,1556,1562,1488,1544,1507,1507.00
+"Phylotree.js","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,1845,1778,1864,1850,1913,1798,1764,1845.00
+"Phylotree.js","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,1895,1884,1885,1899,1900,1893,1830,1893.00
+"Phylotree.js","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,1674,1733,1752,1718,1804,1562,1579,1718.00
+"Phylotree.js","simulated - ete3 - tree 10k",10000,1417,1413,1479,1407,1506,1371,1398,1413.00
+"Phylotree.js","simulated - ete3 - tree 1k",1000,758,746,727,725,739,723,725,727.00
+"Phylotree.js","simulated - ete3 - tree 30k",30000,2545,2799,2747,3178,3122,3090,2882,2882.00
+"Phylotree.js","simulated - ete3 - tree 3k",3000,1117,881,871,891,875,879,883,881.00
+"Phylotree.js","simulated - ete3 - tree 50k",50000,3981,4583,4798,5346,5177,5127,4158,4798.00
+"PhyloScape","pubmlst - campylobacter coli - coli-MLST tree",11737,10580,4182,4183,4165,4159,4163,4157,4165.00
+"PhyloScape","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,4158,4164,4159,4170,4178,4176,4160,4164.00
+"PhyloScape","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,4179,4171,4181,4175,4157,4164,4172,4172.00
+"PhyloScape","pubmlst - neisseria - neisseria-MLST tree",15389,4175,4177,4179,4169,4159,4179,4168,4175.00
+"PhyloScape","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,4148,4165,4155,4173,4179,4176,4163,4165.00
+"PhyloScape","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,4175,4162,4170,4162,4159,4180,4182,4170.00
+"PhyloScape","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,4156,4157,4180,4179,4174,4178,4164,4174.00
+"PhyloScape","simulated - ete3 - tree 10k",10000,4176,4161,4174,4158,4181,4157,4174,4174.00
+"PhyloScape","simulated - ete3 - tree 1k",1000,4170,4157,4159,4171,4172,4174,4168,4170.00
+"PhyloScape","simulated - ete3 - tree 30k",30000,4175,4177,4172,4156,4171,4171,4158,4171.00
+"PhyloScape","simulated - ete3 - tree 3k",3000,4178,4173,4175,4153,4167,4174,4164,4173.00
+"PhyloScape","simulated - ete3 - tree 50k",50000,4159,4167,4170,4157,4164,4176,4170,4167.00

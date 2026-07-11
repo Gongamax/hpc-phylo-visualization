@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PhyD3 Evaluation Fixture</title>
+    <style>
+      body {
+        color: #172033;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        margin: 0;
+      }
+
+      .toolbar {
+        align-items: center;
+        border-bottom: 1px solid #d7dde5;
+        display: flex;
+        gap: 12px;
+        min-height: 48px;
+        padding: 0 12px;
+      }
+
+      textarea {
+        flex: 1;
+        font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        height: 28px;
+        resize: none;
+      }
+
+      button {
+        font: inherit;
+        height: 32px;
+      }
+
+      #debug-output {
+        color: #334155;
+        font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        margin-left: auto;
+        white-space: pre-wrap;
+      }
+
+      #error-message {
+        color: #b42318;
+        font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      #tree-container {
+        height: calc(100vh - 49px);
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="toolbar" onsubmit="return false">
+      <label for="newick-input">Newick</label>
+      <textarea id="newick-input">(((A:0.2,B:0.3):0.3,(C:0.5,D:0.3):0.2):0.3,E:0.7):0.0;</textarea>
+      <button id="load-tree" type="button">Render</button>
+      <output id="debug-output"></output>
+      <output id="error-message"></output>
+    </form>
+    <main id="tree-container"></main>
+    <script type="module" src="dist/bundle.js"></script>
+  </body>
+</html>

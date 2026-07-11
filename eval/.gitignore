@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.venv/
+.matplotlib-cache/
+.cache/
+artifacts/
+__pycache__/
+*.pyc

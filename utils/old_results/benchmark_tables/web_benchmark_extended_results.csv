@@ -1,0 +1,93 @@
+Tool,Dataset,Nodes,Run1_Total(ms),Run2_Total(ms),Run3_Total(ms),Run4_Total(ms),Run5_Total(ms),Run6_Total(ms),Run7_Total(ms),Median_Total(ms),Mean_Total(ms),StdDev_Total(ms),Median_FCP(ms),Median_LCP(ms),Median_DOMContentLoaded(ms),Median_LoadEvent(ms),Median_TBT(ms),Median_ScriptDuration(ms),Median_LayoutDuration(ms)
+"iTOL","enterobase - clostridium - clostridium-upgma-tree",27962,24657,24552,24532,24401,24220,24677,24296,24532.00,24476.43,162.85,24336.00,24336.00,24321.90,24325.90,0.00,0.00,0.00
+"iTOL","enterobase - clostridium - clostridium tree goeburst",5684,901,757,757,887,804,908,806,806.00,831.43,61.26,652.00,652.00,639.30,641.60,0.00,0.00,0.00
+"iTOL","enterobase - salmonella - salmonella-100k-sample-tree",62038,1851,1583,1609,1950,1610,1863,1990,1851.00,1779.43,161.19,1704.00,1704.00,1697.90,1700.40,146.00,0.00,0.00
+"iTOL","enterobase - vibrio - vibrio-upgma-tree",17646,11539,11624,11607,11744,11812,11657,11571,11624.00,11650.57,89.61,11476.00,11476.00,11472.30,11475.00,1202.00,0.00,0.00
+"iTOL","enterobase - vibrio - vibrio tree goeburst",2999,811,889,802,755,797,926,743,802.00,817.57,62.16,644.00,644.00,638.40,640.50,0.00,0.00,0.00
+"iTOL","pubmlst - campylobacter coli - coli-MLST tree",11737,3236,3041,3139,3068,3086,3204,3209,3139.00,3140.43,71.69,2996.00,2996.00,2990.60,2993.10,594.00,0.00,0.00
+"iTOL","pubmlst - campylobacter coli - coli-cgMLST-tree",105733,3794,3310,3583,3522,3504,3537,3493,3522.00,3534.71,132.51,3356.00,3356.00,3350.90,3354.00,487.00,0.00,0.00
+"iTOL","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,1006,991,1006,986,990,997,1006,997.00,997.43,8.00,836.00,836.00,826.70,833.80,115.00,0.00,0.00
+"iTOL","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,722,685,700,692,673,684,685,685.00,691.57,14.57,524.00,524.00,515.00,517.30,0.00,0.00,0.00
+"iTOL","pubmlst - haemophilus influenzae - haemophilus influenzae-cgmlst-tree",9296,6285,6338,6388,6217,6349,6256,6455,6338.00,6326.86,75.23,6176.00,6176.00,6166.10,6168.80,578.00,0.00,0.00
+"iTOL","pubmlst - neisseria - neisseria-MLST tree",15389,5207,5219,5234,5334,5327,5475,5145,5234.00,5277.29,101.76,5076.00,5076.00,5070.00,5072.90,791.00,0.00,0.00
+"iTOL","pubmlst - neisseria - neisseria-cgMLST-tree-L200",49548,994,1129,FAIL,1261,1204,1249,942,1166.50,1129.83,122.91,1004.00,1004.00,997.35,999.85,0.00,0.00,0.00
+"iTOL","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,6983,7063,7215,7246,7047,6906,7006,7047.00,7066.57,114.05,6880.00,6880.00,6873.90,6877.30,1072.00,0.00,0.00
+"iTOL","pubmlst - staphylococcus aureus - staphylococcus-nj-tree",10659,5895,5933,5923,6049,6155,5957,5903,5933.00,5973.57,88.02,5764.00,5764.00,5754.70,5757.80,689.00,0.00,0.00
+"iTOL","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,5648,5714,5832,5756,5620,5670,5602,5670.00,5691.71,75.48,5500.00,5500.00,5494.10,5497.50,1105.00,0.00,0.00
+"iTOL","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,5285,5340,5459,5383,5287,5471,5283,5340.00,5358.29,75.51,5164.00,5164.00,5156.60,5159.70,970.00,0.00,0.00
+"iTOL","pubmlst - streptococcus pneumoniae - pneumoniae-tree",57985,1708,1793,1807,1772,1740,1752,1811,1772.00,1769.00,35.14,1604.00,1604.00,1597.10,1600.40,189.00,0.00,0.00
+"iTOL","simulated - ete3 - tree 10k",10000,3348,3544,3620,3415,3760,3450,3501,3501.00,3519.71,127.64,3336.00,3336.00,3331.10,3333.90,705.00,0.00,0.00
+"iTOL","simulated - ete3 - tree 1k",1000,983,927,907,961,947,894,922,927.00,934.43,28.83,772.00,772.00,765.20,769.00,59.00,0.00,0.00
+"iTOL","simulated - ete3 - tree 200k",200000,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+"iTOL","simulated - ete3 - tree 30k",30000,12473,12441,12101,13089,13141,12349,12470,12470.00,12580.57,358.46,12312.00,12312.00,12302.50,12306.50,0.00,0.00,0.00
+"iTOL","simulated - ete3 - tree 3k",3000,1548,1470,1561,1516,1518,1518,1520,1518.00,1521.57,26.65,1360.00,1360.00,1354.30,1358.00,285.00,0.00,0.00
+"iTOL","simulated - ete3 - tree 50k",50000,24226,24259,25937,22753,25297,22010,22646,24226.00,23875.43,1351.83,23984.00,23984.00,23974.50,23978.00,0.00,0.00,0.00
+"Phylotree.js","enterobase - clostridium - clostridium-upgma-tree",27962,5617,3780,4128,4259,3989,3840,4305,4128.00,4274.00,578.15,220.00,220.00,211.50,212.60,2015.00,0.00,0.00
+"Phylotree.js","enterobase - clostridium - clostridium tree goeburst",5684,1679,1610,1590,1594,1587,1592,1594,1594.00,1606.57,30.34,32.00,32.00,16.40,18.40,0.00,0.00,0.00
+"Phylotree.js","enterobase - salmonella - salmonella-100k-sample-tree",62038,1697,1697,1699,1701,1692,1692,1693,1697.00,1695.86,3.31,32.00,32.00,17.30,19.40,34.00,0.00,0.00
+"Phylotree.js","enterobase - vibrio - vibrio-upgma-tree",17646,2826,2842,3060,3170,3179,2871,2932,2932.00,2982.86,140.91,56.00,56.00,44.70,46.60,1142.00,0.00,0.00
+"Phylotree.js","enterobase - vibrio - vibrio tree goeburst",2999,1621,1618,1605,1604,1611,1594,1607,1607.00,1608.57,8.43,32.00,32.00,17.70,19.90,0.00,0.00,0.00
+"Phylotree.js","pubmlst - campylobacter coli - coli-MLST tree",11737,2194,2220,2362,2288,2260,2251,2342,2260.00,2273.86,56.83,40.00,1160.00,28.90,31.10,512.00,0.00,0.00
+"Phylotree.js","pubmlst - campylobacter coli - coli-cgMLST-tree",105733,2137,2116,2093,2149,2129,2106,2138,2129.00,2124.00,18.38,36.00,36.00,26.40,28.40,389.00,0.00,0.00
+"Phylotree.js","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,1705,1679,1683,1691,1697,1683,1685,1685.00,1689.00,8.55,32.00,644.00,19.00,21.10,27.00,0.00,0.00
+"Phylotree.js","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,1573,1586,1584,1583,1590,1584,1592,1584.00,1584.57,5.65,28.00,544.00,17.50,19.70,0.00,0.00,0.00
+"Phylotree.js","pubmlst - haemophilus influenzae - haemophilus influenzae-cgmlst-tree",9296,2209,2336,2395,2344,2289,2333,2412,2336.00,2331.14,62.68,40.00,40.00,29.00,31.10,568.00,0.00,0.00
+"Phylotree.js","pubmlst - neisseria - neisseria-MLST tree",15389,2525,2519,2484,2486,2570,2563,2484,2519.00,2518.71,34.04,44.00,1392.00,31.30,33.10,754.00,0.00,0.00
+"Phylotree.js","pubmlst - neisseria - neisseria-cgMLST-tree-L200",49548,1613,1586,1582,1581,1581,1586,1588,1586.00,1588.14,10.47,32.00,32.00,17.20,19.10,0.00,0.00,0.00
+"Phylotree.js","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,2648,2787,2743,2967,2873,2771,2772,2772.00,2794.43,93.46,52.00,52.00,36.20,38.10,1019.00,0.00,0.00
+"Phylotree.js","pubmlst - staphylococcus aureus - staphylococcus-nj-tree",10659,2314,2496,2837,2991,2812,2483,2446,2496.00,2625.57,232.82,60.00,60.00,42.10,44.30,736.00,0.00,0.00
+"Phylotree.js","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,3091,3142,3002,2773,2853,2990,2934,2990.00,2969.29,119.19,56.00,1672.00,40.20,42.30,1174.00,0.00,0.00
+"Phylotree.js","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,2567,2641,2741,2616,2700,2867,2659,2659.00,2684.43,90.85,52.00,1444.00,40.50,42.60,907.00,0.00,0.00
+"Phylotree.js","pubmlst - streptococcus pneumoniae - pneumoniae-tree",57985,1758,1713,1708,1703,1703,1712,1715,1712.00,1716.00,17.70,36.00,36.00,19.40,21.50,40.00,0.00,0.00
+"Phylotree.js","simulated - ete3 - tree 10k",10000,2307,2379,2474,2483,2433,2784,2636,2474.00,2499.43,149.52,44.00,44.00,30.50,32.50,706.00,0.00,0.00
+"Phylotree.js","simulated - ete3 - tree 1k",1000,1685,1646,1795,1875,1731,1644,1652,1685.00,1718.29,81.81,52.00,52.00,32.80,34.70,14.00,0.00,0.00
+"Phylotree.js","simulated - ete3 - tree 200k",200000,1596,38903,6795,25458,2662,FAIL,FAIL,6795.00,15082.80,14696.29,1476.00,1476.00,1462.10,1463.30,23893.00,0.00,0.00
+"Phylotree.js","simulated - ete3 - tree 30k",30000,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+"Phylotree.js","simulated - ete3 - tree 3k",3000,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+"Phylotree.js","simulated - ete3 - tree 50k",50000,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+"PhyloScape","enterobase - clostridium - clostridium-upgma-tree",27962,10119,4088,4073,4052,4059,4059,4057,4059.00,4929.57,2118.61,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","enterobase - clostridium - clostridium tree goeburst",5684,4051,4052,4054,4048,4050,4051,4050,4051.00,4050.86,1.73,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","enterobase - salmonella - salmonella-100k-sample-tree",62038,4052,4053,4059,4065,4082,4057,4066,4059.00,4062.00,9.56,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","enterobase - vibrio - vibrio-upgma-tree",17646,4062,4053,4082,4059,4056,4086,4070,4062.00,4066.86,11.96,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","enterobase - vibrio - vibrio tree goeburst",2999,4070,4073,4078,4060,4058,4057,4060,4060.00,4065.14,7.75,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - campylobacter coli - coli-MLST tree",11737,4054,4054,4056,4076,4079,4054,4055,4055.00,4061.14,10.40,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - campylobacter coli - coli-cgMLST-tree",105733,4080,4088,4076,4084,4086,4089,4088,4086.00,4084.43,4.47,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,4079,4085,4083,4071,4061,4082,4082,4082.00,4077.57,7.96,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,4080,4081,4076,4084,4083,4082,4084,4082.00,4081.43,2.61,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - haemophilus influenzae - haemophilus influenzae-cgmlst-tree",9296,4079,4070,4069,4080,4082,4072,4083,4079.00,4076.43,5.47,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - neisseria - neisseria-MLST tree",15389,4068,4087,4060,4085,4074,4075,4067,4074.00,4073.71,9.04,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - neisseria - neisseria-cgMLST-tree-L200",49548,4072,4084,4087,4084,4089,4086,4072,4084.00,4082.00,6.52,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,4057,4054,4059,4063,4066,5369,4064,4063.00,4247.43,457.90,4120.00,5416.00,3374.90,3843.20,228.00,0.00,0.00
+"PhyloScape","pubmlst - staphylococcus aureus - staphylococcus-nj-tree",10659,4057,4066,4061,4073,4059,4064,4051,4061.00,4061.57,6.50,4120.00,5416.00,3374.90,3843.20,4089.00,0.00,0.00
+"PhyloScape","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,4048,4059,4068,4060,4063,4054,4060,4060.00,4058.86,5.91,4120.00,5416.00,3374.90,3843.20,4177.00,0.00,0.00
+"PhyloScape","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,4053,4060,4053,4073,4055,4068,4064,4060.00,4060.86,7.24,4120.00,5416.00,3374.90,3843.20,4820.00,0.00,0.00
+"PhyloScape","pubmlst - streptococcus pneumoniae - pneumoniae-tree",57985,4082,4071,4073,4063,4084,4087,4087,4082.00,4078.14,8.56,4120.00,5416.00,3374.90,3843.20,4820.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 10k",10000,4078,4059,4069,4056,4065,4060,4063,4063.00,4064.29,6.84,4120.00,5416.00,3374.90,3843.20,5305.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 1k",1000,4073,4066,4075,4059,4071,4050,4055,4066.00,4064.14,8.92,4120.00,5416.00,3374.90,3843.20,5305.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 200k",200000,4061,4053,4076,4053,4064,4085,4060,4061.00,4064.57,11.02,4120.00,5416.00,3374.90,3843.20,5824.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 30k",30000,4100,4072,4061,4099,4081,4087,4084,4084.00,4083.43,12.93,4120.00,5416.00,3374.90,3843.20,5824.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 3k",3000,4072,4055,4064,4065,4080,4092,4058,4065.00,4069.43,12.05,4120.00,5416.00,3374.90,3843.20,6412.00,0.00,0.00
+"PhyloScape","simulated - ete3 - tree 50k",50000,4057,4058,4085,4072,4058,4051,4051,4058.00,4061.71,11.51,4120.00,5416.00,3374.90,3843.20,6948.00,0.00,0.00
+"GrapeTree","enterobase - clostridium - clostridium-upgma-tree",27962,2325,2188,2378,2303,2118,2348,2241,2303.00,2271.57,86.61,48.00,48.00,49.20,54.60,1720.00,0.03,0.00
+"GrapeTree","enterobase - clostridium - clostridium tree goeburst",5684,519,517,517,519,518,518,523,518.00,518.71,1.91,40.00,40.00,36.20,41.50,0.00,0.00,0.00
+"GrapeTree","enterobase - salmonella - salmonella-100k-sample-tree",62038,555,547,543,544,547,544,547,547.00,546.71,3.73,40.00,40.00,28.00,32.60,0.00,0.00,0.00
+"GrapeTree","enterobase - vibrio - vibrio-upgma-tree",17646,1742,1849,1865,1867,1802,1803,1851,1849.00,1825.57,42.28,40.00,52.00,42.70,47.30,1270.00,0.02,0.00
+"GrapeTree","enterobase - vibrio - vibrio tree goeburst",2999,517,520,520,519,521,521,526,520.00,520.57,2.56,32.00,32.00,27.80,33.00,0.00,0.00,0.00
+"GrapeTree","pubmlst - campylobacter coli - coli-MLST tree",11737,18812,17280,16236,17918,18830,16206,17571,17571.00,17550.43,998.05,40.00,40.00,34.20,39.20,17004.00,0.02,0.00
+"GrapeTree","pubmlst - campylobacter coli - coli-cgMLST-tree",105733,581,567,566,563,569,590,565,567.00,571.57,9.29,32.00,32.00,25.10,29.00,0.00,0.00,0.00
+"GrapeTree","pubmlst - haemophilus influenzae - haemophilus influenzae-MLST tree",2041,1104,1087,1077,1100,1083,1093,1091,1091.00,1090.71,8.70,32.00,32.00,27.10,31.10,534.00,0.00,0.00
+"GrapeTree","pubmlst - haemophilus influenzae - haemophilus influenzae-cgMLST tree",923,519,517,519,525,519,524,522,519.00,520.71,2.76,28.00,28.00,25.90,30.10,0.00,0.00,0.00
+"GrapeTree","pubmlst - haemophilus influenzae - haemophilus influenzae-cgmlst-tree",9296,1825,1809,1864,1889,1919,1874,1874,1874.00,1864.86,34.62,44.00,44.00,45.00,49.90,1298.00,0.02,0.00
+"GrapeTree","pubmlst - neisseria - neisseria-MLST tree",15389,29481,28857,28439,FAIL,27801,25150,28070,28254.50,27966.33,1371.18,44.00,44.00,39.15,43.25,27691.00,0.02,0.00
+"GrapeTree","pubmlst - neisseria - neisseria-cgMLST-tree-L200",49548,546,538,538,537,545,549,547,545.00,542.86,4.64,32.00,32.00,26.70,31.70,0.00,0.00,0.00
+"GrapeTree","pubmlst - staphylococcus aureus - staphylococcus-cgMLST tree",20319,1602,1657,1717,1647,1621,1641,1635,1641.00,1645.71,33.53,40.00,40.00,38.00,42.20,1056.00,0.00,0.00
+"GrapeTree","pubmlst - staphylococcus aureus - staphylococcus-nj-tree",10659,2036,2012,2112,2054,2149,2240,2229,2112.00,2118.86,84.73,44.00,44.00,38.90,43.70,1537.00,0.03,0.00
+"GrapeTree","pubmlst - staphylococcus aureus - staphylococus-MLST tree",21319,13061,12449,11437,11059,12446,10924,10825,11437.00,11743.00,828.49,40.00,40.00,33.40,38.10,10885.00,0.02,0.00
+"GrapeTree","pubmlst - streptococcus pneumoniae - pneumoniae-MLST tree",20245,527,527,526,527,527,523,529,527.00,526.57,1.68,28.00,28.00,25.50,29.50,0.00,0.00,0.00
+"GrapeTree","pubmlst - streptococcus pneumoniae - pneumoniae-tree",57985,567,565,560,546,541,552,543,552.00,553.43,9.87,28.00,28.00,26.30,30.70,0.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 10k",10000,1613,1675,1784,1665,1643,1586,1637,1643.00,1657.57,58.66,52.00,52.00,48.30,52.60,1064.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 1k",1000,697,686,657,642,683,609,613,657.00,655.29,32.87,36.00,36.00,28.20,32.20,100.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 200k",200000,7538,7123,6736,7135,7090,7395,7583,7135.00,7228.57,275.37,64.00,112.00,72.50,78.60,6496.00,0.02,0.00
+"GrapeTree","simulated - ete3 - tree 30k",30000,2158,1962,1947,2008,1910,2002,1911,1962.00,1985.43,79.12,40.00,40.00,36.40,41.20,1379.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 3k",3000,912,839,824,823,829,838,852,838.00,845.29,28.79,32.00,32.00,30.30,34.70,271.00,0.00,0.00
+"GrapeTree","simulated - ete3 - tree 50k",50000,2282,2228,2221,2260,2332,2492,2317,2282.00,2304.57,85.67,40.00,40.00,36.20,41.10,1681.00,0.02,0.00

@@ -1,8 +1,6 @@
-import os
 import csv
 import argparse
 from pathlib import Path
-from collections import defaultdict
 
 
 def analyze_mlst_file(file_path):

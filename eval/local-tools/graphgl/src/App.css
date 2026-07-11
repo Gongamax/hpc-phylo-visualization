@@ -1,0 +1,34 @@
+.fixture {
+  display: grid;
+  grid-template-rows: 48px 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.toolbar {
+  align-items: center;
+  border-bottom: 1px solid #d7dde5;
+  display: flex;
+  gap: 16px;
+  padding: 0 12px;
+}
+
+.toolbar label {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.toolbar select {
+  font: inherit;
+}
+
+.toolbar output {
+  color: #334155;
+  font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  margin-left: auto;
+}
+
+.graph-frame {
+  min-height: 0;
+}

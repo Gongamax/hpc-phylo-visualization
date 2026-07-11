@@ -1,5 +1,0 @@
-Tool,Dataset,Nodes,Run1_Total(ms),Run2_Total(ms),Run3_Total(ms),Run4_Total(ms),Run5_Total(ms),Run6_Total(ms),Run7_Total(ms),Median_Total(ms),Mean_Total(ms),StdDev_Total(ms),Median_FCP(ms),Median_LCP(ms),Median_DOMContentLoaded(ms),Median_LoadEvent(ms),Median_TBT(ms),Median_ScriptDuration(ms),Median_LayoutDuration(ms)
-"iTOL","neisseria-MLST tree",15389,5825,5433,5336,5411,5228,5493,5202,5411.00,5418.29,193.11,5144.00,5264.00,5256.50,5259.50,806.00,0.00,0.00
-"iTOL","neisseria-cgmlst-tree",52241,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,FAIL,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-"GrapeTree","neisseria-MLST tree",15389,25972,25350,25592,25491,26820,24618,27083,25592.00,25846.57,796.35,48.00,48.00,41.90,46.40,25035.00,0.01,0.00
-"GrapeTree","neisseria-cgmlst-tree",52241,2594,2546,2538,2484,2557,2576,2532,2546.00,2546.71,32.57,40.00,40.00,35.80,40.70,1961.00,0.02,0.00
