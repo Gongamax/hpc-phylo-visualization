@@ -10,8 +10,33 @@ function execVersion(command, args) {
   }
 }
 
+async function collectWebglInfo(browser) {
+  if (!browser) return {};
+
+  let page;
+  try {
+    page = await browser.newPage();
+    return await page.evaluate(() => {
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      if (!gl) return { webgl_vendor: "", webgl_renderer: "" };
+
+      const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+      return {
+        webgl_vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
+        webgl_renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
+      };
+    });
+  } catch {
+    return { webgl_vendor: "", webgl_renderer: "" };
+  } finally {
+    await page?.close();
+  }
+}
+
 export async function collectEnvironment(browser, options) {
   const browserVersion = browser ? await browser.version() : "";
+  const webgl = await collectWebglInfo(browser);
 
   return {
     iso: new Date().toISOString(),
@@ -29,5 +54,7 @@ export async function collectEnvironment(browser, options) {
     viewport_height: options.viewport.height,
     device_scale_factor: options.deviceScaleFactor,
     runs: options.runs,
+    warmup_runs: options.warmupRuns,
+    ...webgl,
   };
 }

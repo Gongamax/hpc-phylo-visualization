@@ -1,0 +1,6 @@
+dataset_id,label,group,benchmark_default,tips,nodes,edges,file_size_kb,format,source_path
+sim-1k,Simulated 1K,synthetic,true,1000,1999,1998,27,newick,data/simulated/ete3/tree_1k.newick
+sim-3k,Simulated 3K,synthetic,true,3000,5999,5998,83.2,newick,data/simulated/ete3/tree_3k.newick
+sim-10k,Simulated 10K,synthetic,true,10000,19999,19998,280,newick,data/simulated/ete3/tree_10k.newick
+hinf-mlst,H. influenzae MLST,real,true,531,1020,1019,9.2,nwk,data/pubmlst/haemophilus_influenzae/haemophilus_influenzae-mlst-full_goeburst.nwk
+clostridium-upgma,Clostridium UPGMA,real,true,27962,55923,55922,896.3,nwk,data/enterobase/clostridium/clostridium-upgma-tree.nwk

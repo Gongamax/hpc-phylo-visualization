@@ -15,9 +15,10 @@ import { DATASETS, selectDatasets } from "./config/datasets.js";
 import { selectStaticTools } from "./config/tools.js";
 import { appendCsv, readCsv, writeCsv } from "./lib/csv.js";
 import { classifyFailure } from "./lib/failures.js";
-import { median, round } from "./lib/stats.js";
+import { median, percentile, round } from "./lib/stats.js";
 
 const RUNS = Number(process.env.RUNS ?? 7);
+const WARMUP_RUNS = Number(process.env.WARMUP_RUNS ?? 1);
 const APPEND_RESULTS = process.env.APPEND_RESULTS === "1";
 const OUT_DIR = path.resolve(import.meta.dirname, "results");
 const ARTIFACT_DIR = path.resolve(import.meta.dirname, "artifacts");
@@ -33,6 +34,7 @@ const RUN_COLUMNS = [
   "dataset_id",
   "dataset",
   "dataset_group",
+  "phase",
   "run",
   "success",
   "failure_kind",
@@ -70,11 +72,26 @@ const SUMMARY_COLUMNS = [
   "failure_kinds",
   "nodes",
   "edges",
+  "p25_load_ms",
   "median_load_ms",
+  "p75_load_ms",
+  "iqr_load_ms",
+  "p25_parse_ms",
   "median_parse_ms",
+  "p75_parse_ms",
+  "iqr_parse_ms",
+  "p25_render_ms",
   "median_render_ms",
+  "p75_render_ms",
+  "iqr_render_ms",
+  "p25_total_ms",
   "median_total_ms",
+  "p75_total_ms",
+  "iqr_total_ms",
+  "p25_heap_delta_mb",
   "median_heap_delta_mb",
+  "p75_heap_delta_mb",
+  "iqr_heap_delta_mb",
 ];
 
 function splitEnv(name) {
@@ -94,9 +111,21 @@ function numeric(value) {
   return Number(value);
 }
 
+function spread(values) {
+  const p25 = percentile(values, 25);
+  const p75 = percentile(values, 75);
+  return {
+    p25: round(p25),
+    median: round(median(values)),
+    p75: round(p75),
+    iqr: round(p75 - p25),
+  };
+}
+
 function summarize(rows) {
   const groups = new Map();
   for (const row of rows) {
+    if (row.phase === "warmup") continue;
     const key = `${row.tool}\t${row.dataset}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
@@ -105,6 +134,11 @@ function summarize(rows) {
   return [...groups.values()].map((groupRows) => {
     const successful = groupRows.filter((row) => row.success === "true");
     const first = successful[0] ?? groupRows[0];
+    const load = spread(successful.map((row) => numeric(row.load_ms)));
+    const parse = spread(successful.map((row) => numeric(row.parse_ms)));
+    const render = spread(successful.map((row) => numeric(row.render_ms)));
+    const total = spread(successful.map((row) => numeric(row.total_ms)));
+    const heap = spread(successful.map((row) => numeric(row.heap_delta_mb)));
 
     return {
       tool: first.tool,
@@ -119,11 +153,26 @@ function summarize(rows) {
       failure_kinds: [...new Set(groupRows.filter((row) => row.failure_kind).map((row) => row.failure_kind))].join("|"),
       nodes: round(median(successful.map((row) => numeric(row.nodes))), 0),
       edges: round(median(successful.map((row) => numeric(row.edges))), 0),
-      median_load_ms: round(median(successful.map((row) => numeric(row.load_ms)))),
-      median_parse_ms: round(median(successful.map((row) => numeric(row.parse_ms)))),
-      median_render_ms: round(median(successful.map((row) => numeric(row.render_ms)))),
-      median_total_ms: round(median(successful.map((row) => numeric(row.total_ms)))),
-      median_heap_delta_mb: round(median(successful.map((row) => numeric(row.heap_delta_mb)))),
+      p25_load_ms: load.p25,
+      median_load_ms: load.median,
+      p75_load_ms: load.p75,
+      iqr_load_ms: load.iqr,
+      p25_parse_ms: parse.p25,
+      median_parse_ms: parse.median,
+      p75_parse_ms: parse.p75,
+      iqr_parse_ms: parse.iqr,
+      p25_render_ms: render.p25,
+      median_render_ms: render.median,
+      p75_render_ms: render.p75,
+      iqr_render_ms: render.iqr,
+      p25_total_ms: total.p25,
+      median_total_ms: total.median,
+      p75_total_ms: total.p75,
+      iqr_total_ms: total.iqr,
+      p25_heap_delta_mb: heap.p25,
+      median_heap_delta_mb: heap.median,
+      p75_heap_delta_mb: heap.p75,
+      iqr_heap_delta_mb: heap.iqr,
     };
   });
 }
@@ -155,7 +204,7 @@ function main() {
   const commit = gitCommit();
   const rows = APPEND_RESULTS ? readCsv(RUNS_CSV) : [];
 
-  console.log(`runs=${RUNS}`);
+  console.log(`runs=${RUNS} warmup_runs=${WARMUP_RUNS}`);
   console.log(`platform=${os.type()} ${os.release()} ${os.arch()}`);
   console.log(`tools=${tools.map((tool) => tool.id).join(", ")}`);
   console.log(`datasets=${datasets.map((dataset) => dataset.id).join(", ")}`);
@@ -167,7 +216,9 @@ function main() {
     for (const dataset of datasets) {
       console.log(`  [dataset] ${dataset.label}`);
 
-      for (let run = 0; run < RUNS; run++) {
+      for (let iteration = 0; iteration < WARMUP_RUNS + RUNS; iteration++) {
+        const phase = iteration < WARMUP_RUNS ? "warmup" : "measured";
+        const run = phase === "warmup" ? iteration : iteration - WARMUP_RUNS;
         const base = {
           iso: new Date().toISOString(),
           tool_id: tool.id,
@@ -177,6 +228,7 @@ function main() {
           dataset_id: dataset.id,
           dataset: dataset.label,
           dataset_group: dataset.group,
+          phase,
           run,
           browser: "",
           node_version: process.version,
@@ -209,7 +261,8 @@ function main() {
 
           rows.push(row);
           appendCsv(RUNS_CSV, row, RUN_COLUMNS);
-          console.log(`    run ${run + 1}/${RUNS}: ${row.total_ms} ms`);
+          const label = phase === "warmup" ? `warmup ${run + 1}/${WARMUP_RUNS}` : `run ${run + 1}/${RUNS}`;
+          console.log(`    ${label}: ${row.total_ms} ms`);
         } catch (error) {
           const row = {
             ...base,
@@ -233,7 +286,8 @@ function main() {
 
           rows.push(row);
           appendCsv(RUNS_CSV, row, RUN_COLUMNS);
-          console.warn(`    run ${run + 1}/${RUNS}: failed - ${error.message}`);
+          const label = phase === "warmup" ? `warmup ${run + 1}/${WARMUP_RUNS}` : `run ${run + 1}/${RUNS}`;
+          console.warn(`    ${label}: failed - ${error.message}`);
         }
       }
     }

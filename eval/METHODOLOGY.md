@@ -30,6 +30,25 @@ Do not mix measurements without labeling the class. Browser tools can report
 load, parse/init, render, total, and JS heap delta. Static renderers should report
 parse, layout/render, export time, peak RSS, and output file size.
 
+## Run Protocol
+
+Browser and static runners execute `WARMUP_RUNS` warm-up iterations before the
+measured repetitions for each `(tool, dataset)` pair. Warm-up rows are retained
+in `results/runs.csv` with `phase=warmup` so the run history is auditable, but
+`results/summary.csv` includes only `phase=measured` rows.
+
+The default protocol is:
+
+```text
+WARMUP_RUNS=1
+RUNS=7
+```
+
+Median values are the primary reported statistic. P25, P75, and IQR are also
+reported for load, parse, render, total, and memory metrics to show measurement
+stability. P95 is intentionally omitted from the default tables because the
+default run count is too small for a reliable tail estimate.
+
 ## Core Metrics
 
 - `load_ms`: file read, HTTP fetch, or upload/load time.
@@ -37,13 +56,15 @@ parse, layout/render, export time, peak RSS, and output file size.
 - `render_ms`: time to visual output or exported image.
 - `total_ms`: end-to-end time.
 - `memory_mb`: JS heap delta for browser tools, peak RSS for CLI tools.
+- `phase`: warm-up or measured; only measured rows are summarized.
 - `success`: whether the tool produced a usable visualization for the dataset.
 - `rendered`: whether the tool produced a non-empty SVG/canvas/export artifact.
 - `failure_kind`: timeout, parse error, unsupported input, browser crash,
   invalid render, or runtime error.
 
-Use `RUNS=7` and report medians. Keep failed runs in the raw CSV and report the
-number of successful runs in the summary table.
+Use `WARMUP_RUNS=1 RUNS=7` and report measured-run medians with IQR. Keep failed
+runs in the raw CSV and report the number of successful runs in the summary
+table.
 
 ## Proxy Dataset Loading
 

@@ -67,6 +67,13 @@ export function appendCsv(filePath, row, columns) {
 
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, columns.join(",") + "\n");
+  } else {
+    const [header] = fs.readFileSync(filePath, "utf8").split(/\r?\n/, 1);
+    if (header !== columns.join(",")) {
+      throw new Error(
+        `CSV schema mismatch for ${filePath}. Re-run without APPEND_RESULTS=1 or rebuild the file.`
+      );
+    }
   }
 
   fs.appendFileSync(filePath, columns.map((column) => escapeCell(row[column])).join(",") + "\n");

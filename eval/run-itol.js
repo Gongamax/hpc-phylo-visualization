@@ -20,7 +20,7 @@ import { appendCsv, readCsv, writeCsv } from "./lib/csv.js";
 import { collectEnvironment } from "./lib/env.js";
 import { classifyFailure } from "./lib/failures.js";
 import { newickToEdgeList, readNewick } from "./lib/newick.js";
-import { median, round } from "./lib/stats.js";
+import { median, percentile, round } from "./lib/stats.js";
 
 const RUNS = Number(process.env.RUNS ?? 1);
 const APPEND_RESULTS = process.env.APPEND_RESULTS === "1";
@@ -44,6 +44,7 @@ const RUN_COLUMNS = [
   "dataset_id",
   "dataset",
   "dataset_group",
+  "phase",
   "run",
   "success",
   "failure_kind",
@@ -81,11 +82,26 @@ const SUMMARY_COLUMNS = [
   "failure_kinds",
   "nodes",
   "edges",
+  "p25_load_ms",
   "median_load_ms",
+  "p75_load_ms",
+  "iqr_load_ms",
+  "p25_parse_ms",
   "median_parse_ms",
+  "p75_parse_ms",
+  "iqr_parse_ms",
+  "p25_render_ms",
   "median_render_ms",
+  "p75_render_ms",
+  "iqr_render_ms",
+  "p25_total_ms",
   "median_total_ms",
+  "p75_total_ms",
+  "iqr_total_ms",
+  "p25_heap_delta_mb",
   "median_heap_delta_mb",
+  "p75_heap_delta_mb",
+  "iqr_heap_delta_mb",
 ];
 
 function splitEnv(name) {
@@ -100,9 +116,21 @@ function numeric(value) {
   return Number(value);
 }
 
+function spread(values) {
+  const p25 = percentile(values, 25);
+  const p75 = percentile(values, 75);
+  return {
+    p25: round(p25),
+    median: round(median(values)),
+    p75: round(p75),
+    iqr: round(p75 - p25),
+  };
+}
+
 function summarize(rows) {
   const groups = new Map();
   for (const row of rows) {
+    if (row.phase === "warmup") continue;
     const key = `${row.tool}\t${row.dataset}`;
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(row);
@@ -111,6 +139,11 @@ function summarize(rows) {
   return [...groups.values()].map((groupRows) => {
     const successful = groupRows.filter((row) => row.success === "true");
     const first = successful[0] ?? groupRows[0];
+    const load = spread(successful.map((row) => numeric(row.load_ms)));
+    const parse = spread(successful.map((row) => numeric(row.parse_ms)));
+    const render = spread(successful.map((row) => numeric(row.render_ms)));
+    const total = spread(successful.map((row) => numeric(row.total_ms)));
+
     return {
       tool: first.tool,
       tool_category: first.tool_category,
@@ -124,11 +157,26 @@ function summarize(rows) {
       failure_kinds: [...new Set(groupRows.filter((row) => row.failure_kind).map((row) => row.failure_kind))].join("|"),
       nodes: round(median(successful.map((row) => numeric(row.nodes))), 0),
       edges: round(median(successful.map((row) => numeric(row.edges))), 0),
-      median_load_ms: round(median(successful.map((row) => numeric(row.load_ms)))),
-      median_parse_ms: round(median(successful.map((row) => numeric(row.parse_ms)))),
-      median_render_ms: round(median(successful.map((row) => numeric(row.render_ms)))),
-      median_total_ms: round(median(successful.map((row) => numeric(row.total_ms)))),
+      p25_load_ms: load.p25,
+      median_load_ms: load.median,
+      p75_load_ms: load.p75,
+      iqr_load_ms: load.iqr,
+      p25_parse_ms: parse.p25,
+      median_parse_ms: parse.median,
+      p75_parse_ms: parse.p75,
+      iqr_parse_ms: parse.iqr,
+      p25_render_ms: render.p25,
+      median_render_ms: render.median,
+      p75_render_ms: render.p75,
+      iqr_render_ms: render.iqr,
+      p25_total_ms: total.p25,
+      median_total_ms: total.median,
+      p75_total_ms: total.p75,
+      iqr_total_ms: total.iqr,
+      p25_heap_delta_mb: "",
       median_heap_delta_mb: "",
+      p75_heap_delta_mb: "",
+      iqr_heap_delta_mb: "",
     };
   });
 }
@@ -234,6 +282,7 @@ async function main() {
     viewport: { width: "", height: "" },
     deviceScaleFactor: "",
     runs: RUNS,
+    warmupRuns: 0,
   });
   writeCsv(ENVIRONMENT_CSV, [environment], Object.keys(environment));
   fs.writeFileSync(ENVIRONMENT_JSON, JSON.stringify(environment, null, 2) + "\n");
@@ -256,6 +305,7 @@ async function main() {
         dataset_id: dataset.id,
         dataset: dataset.label,
         dataset_group: dataset.group,
+        phase: "measured",
         run,
         browser: "",
         node_version: environment.node_version,

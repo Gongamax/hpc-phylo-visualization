@@ -1,11 +1,11 @@
-Tool,Dataset,Nodes,Edges,Success,Validated,Total,Render,Memory,Failures
-Phylotree.js,Simulated 1K,1999,1998,7/7,7/7,61.7 ms,56.8 ms,0.0 MB,---
-PhyD3,Simulated 1K,1999,1998,7/7,7/7,2.99 s,54.6 ms,0.0 MB,---
-3d-force-graph,Simulated 1K,1999,1998,7/7,7/7,672.4 ms,666.6 ms,0.0 MB,---
-GraphGL,Simulated 1K,1999,1998,7/7,7/7,96.2 ms,81.7 ms,0.0 MB,---
-Cytoscape.js,Simulated 1K,1999,1998,7/7,7/7,164.8 ms,159.6 ms,0.0 MB,---
-GrapeTree,Simulated 1K,1999,1998,7/7,7/7,646.2 ms,646.2 ms,0.0 MB,---
-Taxonium,Simulated 1K,1999,1998,7/7,7/7,26.3 ms,23.9 ms,0.0 MB,---
-Archaeopteryx.js,Simulated 1K,1999,1998,7/7,7/7,210.4 ms,205.1 ms,0.0 MB,---
-ETE3,Simulated 1K,1999,1998,7/7,7/7,472.9 ms,467.0 ms,333.0 MB,---
-ggtree,Simulated 1K,1999,1998,7/7,7/7,242.0 ms,197.0 ms,35.5 MB,---
+Tool,Dataset,Nodes,Edges,Success,Validated,Total,Total IQR,Render,Render IQR,Memory,Failures
+Phylotree.js,Simulated 1K,1999,1998,7/7,7/7,61.7 ms,0.6 ms,56.8 ms,0.9 ms,0.0 MB,---
+PhyD3,Simulated 1K,1999,1998,7/7,7/7,2.99 s,43.2 ms,54.6 ms,2.5 ms,0.0 MB,---
+3d-force-graph,Simulated 1K,1999,1998,7/7,7/7,672.4 ms,10.7 ms,666.6 ms,9.6 ms,0.0 MB,---
+GraphGL,Simulated 1K,1999,1998,7/7,7/7,96.2 ms,3.2 ms,81.7 ms,2.8 ms,0.0 MB,---
+Cytoscape.js,Simulated 1K,1999,1998,7/7,7/7,164.8 ms,3.4 ms,159.6 ms,3.1 ms,0.0 MB,---
+GrapeTree,Simulated 1K,1999,1998,7/7,7/7,646.2 ms,3.2 ms,646.2 ms,3.2 ms,0.0 MB,---
+Taxonium,Simulated 1K,1999,1998,7/7,7/7,26.3 ms,0.9 ms,23.9 ms,1.1 ms,0.0 MB,---
+Archaeopteryx.js,Simulated 1K,1999,1998,7/7,7/7,210.4 ms,9.7 ms,205.1 ms,8.7 ms,0.0 MB,---
+ETE3,Simulated 1K,1999,1998,7/7,7/7,472.9 ms,21.7 ms,467.0 ms,21.7 ms,333.0 MB,---
+ggtree,Simulated 1K,1999,1998,7/7,7/7,242.0 ms,4.0 ms,197.0 ms,4.0 ms,35.5 MB,---

@@ -58,13 +58,16 @@ records the true dataset id and label.
 ## Benchmarks
 
 The benchmark harness writes one raw CSV row per run and one summarized median
-row per `(tool, dataset)` pair.
+row per `(tool, dataset)` pair. Warm-up runs are recorded in the raw CSV but
+excluded from the summary statistics.
 
 ### Scripts
 
 - **`run.js`** — starts each local tool, drives it with Playwright, records
   load/parse/render/total time, validates that something actually rendered, and
   writes raw and summarized CSVs.
+- **`datasets.js`** — writes dataset metadata tables from the canonical dataset
+  registry and Newick files.
 - **`summarize.js`** — rebuilds `results/summary.csv` from `results/runs.csv`.
 - **`plot.py`** — creates publication-style figures from the summary CSV.
 - **`tables.py`** — creates CSV and LaTeX thesis tables from the summary CSV.
@@ -78,6 +81,7 @@ row per `(tool, dataset)` pair.
 | `render_ms` | Time to visual output |
 | `total_ms` | End-to-end time-to-visual-output |
 | `heap_delta_mb` | Best-effort Chromium JS heap delta for browser tools |
+| `phase` | `warmup` or `measured`; summaries include only measured runs |
 | `success` | Whether the run completed without an exception |
 | `rendered` | Whether the visual artifact was validated as non-empty |
 | `failure_kind` | `unsupported`, `timeout`, `parse_error`, `browser_crash`, `render_invalid`, or `runtime_error` |
@@ -85,6 +89,11 @@ row per `(tool, dataset)` pair.
 Browser tools are validated by checking for non-empty SVG or canvas output.
 Static renderers are validated through their exported SVG/PDF files and process
 timings.
+
+Summaries report median, P25, P75, and IQR columns for load, parse, render,
+total, and memory metrics. Median remains the primary reported value; IQR is
+included to show measurement stability without overclaiming tail percentiles
+from small run counts.
 
 ## Running
 
@@ -103,20 +112,20 @@ Run a smoke test:
 
 ```sh
 cd eval
-TOOLS=phylotree DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=phyd3 DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=cytoscape DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=grapetree DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=taxonium DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=archaeopteryx DATASETS=sim-1k RUNS=1 npm run benchmark
-TOOLS=ete3,ggtree DATASETS=sim-1k RUNS=1 npm run benchmark:static
+WARMUP_RUNS=0 TOOLS=phylotree DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=phyd3 DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=cytoscape DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=grapetree DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=taxonium DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=archaeopteryx DATASETS=sim-1k RUNS=1 npm run benchmark
+WARMUP_RUNS=0 TOOLS=ete3,ggtree DATASETS=sim-1k RUNS=1 npm run benchmark:static
 ```
 
 Run the automated browser benchmark set:
 
 ```sh
 cd eval
-RUNS=7 npm run benchmark
+WARMUP_RUNS=1 RUNS=7 npm run benchmark
 ```
 
 Run the incremental Salmonella ladder on the currently automated tools:
@@ -159,6 +168,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python plot.py
 .venv/bin/python tables.py
+npm run datasets
 ```
 
 ## Outputs
@@ -170,6 +180,8 @@ python3 -m venv .venv
 | `results/environment.csv` | OS, CPU, browser, Node, viewport, git commit |
 | `results/environment.json` | same environment metadata in JSON |
 | `figures/*.png` | generated matplotlib figures |
+| `tables/dataset_metadata.csv` | dataset family, size, file format, and source path |
+| `tables/dataset_metadata.tex` | LaTeX version of the dataset metadata table |
 | `tables/performance_summary.csv` | thesis-ready performance table |
 | `tables/performance_summary.tex` | LaTeX version of the performance table |
 | `tables/tool_capability.csv` | maximum successful dataset by tool |
@@ -179,7 +191,7 @@ The raw CSV schema is:
 
 ```text
 iso,tool_id,tool,tool_category,input_format,dataset_id,dataset,dataset_group,
-run,success,failure_kind,rendered,render_artifact,nodes,edges,load_ms,parse_ms,
+phase,run,success,failure_kind,rendered,render_artifact,nodes,edges,load_ms,parse_ms,
 render_ms,total_ms,heap_before_mb,heap_after_mb,heap_delta_mb,metric_source,
 browser,node_version,git_commit,viewport_width,viewport_height,
 validation_detail,error
@@ -188,7 +200,11 @@ validation_detail,error
 ## Notes
 
 - **Use medians.** Browser benchmarks are noisy because of garbage collection,
-  layout, and scheduling. The summary table reports medians and success counts.
+  layout, and scheduling. The summary table reports medians, IQRs, and success
+  counts.
+- **Warm up explicitly.** Browser/static runners default to one warm-up run per
+  tool and dataset. Warm-ups remain in `runs.csv` for auditability but are not
+  summarized.
 - **Do not mix classes blindly.** Browser libraries, full domain applications,
   web services, and static renderers should be labeled separately in the thesis.
 - **Proxy loading is explicit.** When the runner intercepts a placeholder
@@ -207,7 +223,9 @@ The runner records the benchmark environment automatically in
 - OS, CPU model, logical CPU count, and RAM.
 - Node and npm versions.
 - Browser version and headless/headed mode.
+- Best-effort WebGL vendor and renderer strings for browser benchmarks.
 - Viewport and device scale factor.
+- Measured and warm-up run counts.
 - Git commit and dirty-state flag.
 
 For final thesis runs, keep the environment file together with the raw CSVs and

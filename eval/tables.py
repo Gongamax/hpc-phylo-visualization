@@ -27,13 +27,21 @@ def format_ms(value):
     return f"{value:.1f} ms"
 
 
+def format_iqr(value):
+    if pd.isna(value):
+        return "---"
+    return format_ms(value)
+
+
 def build_performance_table(df):
     table = df.copy()
     table["failure_kinds"] = table["failure_kinds"].fillna("---").replace("", "---")
     table["Success"] = table["successful_runs"].astype(str) + "/" + table["runs"].astype(str)
     table["Validated"] = table["validated_runs"].astype(str) + "/" + table["runs"].astype(str)
     table["Total"] = table["median_total_ms"].apply(format_ms)
+    table["Total IQR"] = table.get("iqr_total_ms", pd.Series([pd.NA] * len(table))).apply(format_iqr)
     table["Render"] = table["median_render_ms"].apply(format_ms)
+    table["Render IQR"] = table.get("iqr_render_ms", pd.Series([pd.NA] * len(table))).apply(format_iqr)
     table["Memory"] = table["median_heap_delta_mb"].apply(
         lambda value: "---" if pd.isna(value) else f"{value:.1f} MB"
     )
@@ -47,7 +55,9 @@ def build_performance_table(df):
             "Success",
             "Validated",
             "Total",
+            "Total IQR",
             "Render",
+            "Render IQR",
             "Memory",
             "failure_kinds",
         ]
