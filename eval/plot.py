@@ -71,6 +71,19 @@ def load_summary():
     return df
 
 
+def scoped_labels(rows):
+    datasets = {row.dataset for row in rows}
+    tools = {row.tool for row in rows}
+
+    if len(datasets) == 1 and len(tools) == 1:
+        return [next(iter(tools)) for _ in rows], next(iter(datasets))
+    if len(datasets) == 1:
+        return [row.tool for row in rows], next(iter(datasets))
+    if len(tools) == 1:
+        return [row.dataset for row in rows], next(iter(tools))
+    return [f"{row.tool}\n{row.dataset}" for row in rows], ""
+
+
 def plot_scalability(df):
     synthetic = df[df["dataset_group"] == "synthetic"].sort_values("nodes")
     if synthetic.empty:
@@ -110,7 +123,8 @@ def plot_time_memory_tradeoff(df):
     ax_memory = ax_time.twinx()
 
     pivot = memory.sort_values(["nodes", "tool"])
-    labels = [f"{row.tool}\n{row.dataset}" for row in pivot.itertuples()]
+    rows = list(pivot.itertuples())
+    labels, title = scoped_labels(rows)
     x = range(len(pivot))
 
     ax_time.plot(
@@ -132,6 +146,8 @@ def plot_time_memory_tradeoff(df):
 
     ax_time.set_ylabel("Median total time (ms)", color="#1f77b4")
     ax_memory.set_ylabel("Median heap delta (MB)", color="#d62728")
+    if title:
+        ax_time.set_title(title)
     ax_time.tick_params(axis="x", labelrotation=45)
     ax_time.set_xticks(list(x), labels, ha="right")
     ax_time.grid(True, axis="y", linestyle=":", linewidth=0.7, alpha=0.7)
